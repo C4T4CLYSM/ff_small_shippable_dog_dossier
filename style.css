@@ -1,0 +1,321 @@
+/* ---- Reset & Base ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --orange:      #FF6B35;
+  --orange-dark: #E55A26;
+  --green:       #2D4A3E;
+  --yellow:      #FFD166;
+  --cream:       #FFFBF5;
+  --white:       #FFFFFF;
+  --text:        #1A1A1A;
+  --muted:       #6B7280;
+  --border:      #E5E7EB;
+  --radius:      16px;
+  --radius-sm:   10px;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---- Nav ---- */
+.nav {
+  position: sticky;
+  top: 0;
+  background: var(--cream);
+  border-bottom: 2px solid var(--border);
+  z-index: 100;
+  padding: 16px 0;
+}
+
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--green);
+  letter-spacing: -0.5px;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-block;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+  border: none;
+}
+
+.btn:hover  { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+.btn-sm {
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  background: var(--green);
+  color: var(--white);
+}
+.btn-sm:hover { box-shadow: 0 4px 12px rgba(45, 74, 62, 0.3); }
+
+.btn-primary {
+  padding: 14px 28px;
+  font-size: 1rem;
+  background: var(--orange);
+  color: var(--white);
+}
+.btn-primary:hover { background: var(--orange-dark); box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4); }
+
+.btn-lg { padding: 18px 40px; font-size: 1.1rem; }
+
+/* ---- Hero ---- */
+.hero {
+  padding: 80px 0 60px;
+  text-align: center;
+}
+
+.hero-inner { max-width: 720px; margin: 0 auto; }
+
+.badge {
+  display: inline-block;
+  background: var(--yellow);
+  color: var(--green);
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--green);
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 580px;
+  margin: 0 auto 40px;
+}
+
+/* ---- Signup Form ---- */
+.signup-form {
+  max-width: 640px;
+  margin: 0 auto 32px;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.form-row input {
+  flex: 1;
+  min-width: 200px;
+  padding: 14px 18px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  background: var(--white);
+  transition: border-color 0.15s;
+}
+
+.form-row input:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15);
+}
+
+.form-note {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 12px;
+}
+
+.form-success {
+  margin-top: 20px;
+  background: #D1FAE5;
+  color: #065F46;
+  padding: 14px 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* ---- Audience Chips ---- */
+.audience-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.audience-chips span {
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: 100px;
+  padding: 4px 14px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* ---- Features ---- */
+.features {
+  padding: 80px 0;
+  background: var(--white);
+  text-align: center;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 900;
+  color: var(--green);
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.section-sub {
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 480px;
+  margin: 0 auto 48px;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  text-align: left;
+}
+
+.feature-card {
+  background: var(--cream);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+.feature-icon { font-size: 2.4rem; margin-bottom: 16px; }
+
+.feature-card h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--green);
+  margin-bottom: 8px;
+}
+
+.feature-card p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; }
+
+/* ---- Use Cases ---- */
+.use-cases {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.use-case-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 48px;
+  text-align: left;
+}
+
+.use-case {
+  padding: 28px;
+  border-radius: var(--radius);
+  border: 2px solid var(--border);
+  background: var(--white);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.use-case:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.07);
+}
+
+.use-case-icon { font-size: 2rem; margin-bottom: 12px; }
+
+.use-case h4 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--green);
+  margin-bottom: 8px;
+}
+
+.use-case p { font-size: 0.92rem; color: var(--muted); line-height: 1.7; }
+
+/* ---- Bottom CTA ---- */
+.cta-section {
+  background: var(--green);
+  padding: 80px 0;
+  text-align: center;
+}
+
+.cta-inner h2 { color: var(--white); margin-bottom: 12px; }
+
+.cta-inner p {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 1.1rem;
+  margin-bottom: 32px;
+}
+
+/* ---- Footer ---- */
+.footer {
+  background: var(--text);
+  padding: 28px 0;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer .logo { color: var(--white); font-size: 1.1rem; }
+
+.footer-copy { font-size: 0.82rem; color: rgba(255, 255, 255, 0.45); }
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+  .form-row { flex-direction: column; }
+  .form-row input,
+  .form-row .btn { width: 100%; }
+  .footer-inner { flex-direction: column; text-align: center; }
+  .hero { padding: 56px 0 40px; }
+}
