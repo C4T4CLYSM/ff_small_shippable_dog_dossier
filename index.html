@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dog Dossier — Your Dog's Profile, Always Ready to Share</title>
+  <meta name="description" content="Create a shareable profile for your dog. Share it with walkers, sitters, vets, and anyone who cares for your pup.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="logo">🐾 Dog Dossier</div>
+      <a href="#signup" class="btn btn-sm">Get Early Access</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="badge">Early Access — Join the Waitlist</div>
+      <h1>Every dog deserves a dossier.</h1>
+      <p class="hero-sub">
+        One shareable link with everything your dog's people need to know —
+        health info, routines, emergency contacts, quirks, and more.
+      </p>
+
+      <!-- ✏️ Replace YOUR_FORM_ID with your Formspree form ID (formspree.io/forms) -->
+      <form id="signup" class="signup-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <div class="form-row">
+          <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
+          <input type="email" name="email" placeholder="Your email" autocomplete="email" required>
+          <button type="submit" class="btn btn-primary">Get My Link →</button>
+        </div>
+        <p class="form-note">No spam. Just your link when we're ready. Unsubscribe anytime.</p>
+        <div class="form-success" id="form-success" hidden>
+          🐶 You're on the list! We'll send your link soon.
+        </div>
+      </form>
+
+      <div class="audience-chips">
+        <span>Dog Owners</span>
+        <span>Dog Walkers</span>
+        <span>Sitters</span>
+        <span>Trainers</span>
+        <span>Vets</span>
+        <span>Boarding Facilities</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <h2>One profile. Infinite handoffs.</h2>
+      <p class="section-sub">Stop re-explaining your dog's needs every time. Build it once, share it forever.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <h3>Complete Profile</h3>
+          <p>Health records, medications, emergency contacts, feeding schedule, behavioral notes — all in one place.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔗</div>
+          <h3>Shareable Link</h3>
+          <p>Send your dog's profile to anyone with one link. Update it anytime and the link stays the same.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>QR Code</h3>
+          <p>Print it on a tag, stick it on a crate, or hand it to your vet. Instant access, no app required.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="use-cases">
+    <div class="container">
+      <h2>Built for the whole pack.</h2>
+      <div class="use-case-grid">
+        <div class="use-case">
+          <div class="use-case-icon">🦺</div>
+          <h4>Dog Walkers &amp; Sitters</h4>
+          <p>Get the info you need before the first walk. Emergency contacts, vet info, and behavioral notes — all pre-loaded.</p>
+        </div>
+        <div class="use-case">
+          <div class="use-case-icon">🏥</div>
+          <h4>Vets &amp; Boarding</h4>
+          <p>Intake in seconds. Scan the QR code and you have the full picture — vaccines, medications, allergies, and more.</p>
+        </div>
+        <div class="use-case">
+          <div class="use-case-icon">🏠</div>
+          <h4>Dog Owners</h4>
+          <p>Your dog's profile lives at one URL. Update it once and everyone who has the link sees the latest version.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container cta-inner">
+      <h2>Ready to build your dog's dossier?</h2>
+      <p>Join the waitlist and be first to create your dog's profile when we launch.</p>
+      <a href="#signup" class="btn btn-primary btn-lg">Get Early Access →</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="logo">🐾 Dog Dossier</span>
+      <span class="footer-copy">© 2026 Dog Dossier. Made with ❤️ for dogs everywhere.</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
