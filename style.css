@@ -66,6 +66,12 @@ body {
 .btn:hover  { transform: translateY(-2px); }
 .btn:active { transform: translateY(0); }
 
+.nav-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 .btn-sm {
   padding: 8px 18px;
   font-size: 0.9rem;
@@ -73,6 +79,12 @@ body {
   color: var(--white);
 }
 .btn-sm:hover { box-shadow: 0 4px 12px rgba(45, 74, 62, 0.3); }
+
+.btn-pay {
+  background: var(--orange);
+  color: var(--white);
+}
+.btn-pay:hover { background: var(--orange-dark); box-shadow: 0 4px 12px rgba(255, 107, 53, 0.35); }
 
 .btn-primary {
   padding: 14px 28px;
