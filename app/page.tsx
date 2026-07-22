@@ -94,7 +94,7 @@ export default function Home() {
       </header>
 
       {/* Section 1: Hero */}
-      <section className="relative flex min-h-[85vh] items-end overflow-hidden pb-16">
+      <section className="relative flex min-h-[85vh] items-center justify-center overflow-hidden">
         <Image
           src="/hero-dog.jpg"
           alt="Dog sitting on a bridge"
@@ -103,7 +103,7 @@ export default function Home() {
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-r from-navy/75 via-navy/40 to-transparent" />
-        <div className="relative z-10 mx-auto w-full max-w-[1100px] px-6">
+        <div className="relative z-10 mx-auto w-full max-w-[1100px] px-6 text-center">
           <h1 className="font-heading text-[clamp(2.6rem,7vw,4.5rem)] font-black uppercase leading-[1.05] tracking-tight text-cream">
             Care that
             <br />
