@@ -16,11 +16,12 @@ export default function SignupPage() {
     setLoading(true);
 
     // Verify payment before allowing account creation
-    const { data: paid } = await supabase
-      .from("paid_emails")
-      .select("email")
-      .ilike("email", email.trim())
-      .single();
+    const res = await fetch("/api/check-payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email.trim() }),
+    });
+    const { paid } = await res.json();
 
     if (!paid) {
       setError("No payment found for this email. Please purchase founder access first.");
