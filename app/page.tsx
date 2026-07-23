@@ -12,7 +12,7 @@ const pricingRows = [
   { feature: "Support", founder: "🚀 Direct Founder Access", launch: "Standard Support" },
 ];
 
-const STRIPE_LINK = "https://buy.stripe.com/cNi7sK0tV8dRdX51OgcjS00";
+const STRIPE_LINK = "https://buy.stripe.com/5kQ3cu1xZcu78CLfF6cjS01";
 
 const IconClipboard = () => (
   <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
