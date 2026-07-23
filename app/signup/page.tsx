@@ -19,7 +19,7 @@ export default function SignupPage() {
     const { data: paid } = await supabase
       .from("paid_emails")
       .select("email")
-      .eq("email", email.toLowerCase())
+      .ilike("email", email.trim())
       .single();
 
     if (!paid) {
