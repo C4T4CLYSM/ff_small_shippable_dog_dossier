@@ -15,6 +15,19 @@ export default function SignupPage() {
     setError(null);
     setLoading(true);
 
+    // Verify payment before allowing account creation
+    const { data: paid } = await supabase
+      .from("paid_emails")
+      .select("email")
+      .eq("email", email.toLowerCase())
+      .single();
+
+    if (!paid) {
+      setError("No payment found for this email. Please purchase founder access first.");
+      setLoading(false);
+      return;
+    }
+
     const { error } = await supabase.auth.signUp({ email, password });
 
     if (error) {
