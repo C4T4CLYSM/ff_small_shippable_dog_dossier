@@ -3,10 +3,8 @@ import Script from "next/script";
 
 const pricingRows = [
   { feature: "Access Cost", founder: "$29 (One-time)", launch: "$59 (One-time)" },
-  { feature: "Your Savings", founder: "Save $30 (51% OFF)", launch: "Full Price" },
-  { feature: "Extra Dog Cost", founder: "$5 (One-time)", launch: "$20 (One-time)" },
-  { feature: "Total for 2 Dogs", founder: "$34 forever", launch: "$79 forever" },
-  { feature: "Total for 3 Dogs", founder: "$39 forever", launch: "$99 forever" },
+  { feature: "Your Savings", founder: "Save $30 — 51% OFF", launch: "Full Price" },
+  { feature: "Dogs Included", founder: "✅ Unlimited", launch: "✅ Unlimited" },
   { feature: "Profile Badge", founder: '✅ Exclusive "Founder" Badge', launch: "❌ Standard Profile" },
   { feature: "Feature Voting", founder: "✅ Priority Access", launch: "Standard Access" },
   { feature: "Support", founder: "🚀 Direct Founder Access", launch: "Standard Support" },
