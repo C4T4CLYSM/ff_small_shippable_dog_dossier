@@ -99,7 +99,7 @@ export default function NewDogPage() {
       .single();
 
     if (dogError || !dog) {
-      setError("Failed to create dog profile. Please try again.");
+      setError(`Failed to create dog profile: ${dogError?.message ?? "unknown error"}`);
       setLoading(false);
       return;
     }
