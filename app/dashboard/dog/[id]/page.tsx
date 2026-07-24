@@ -108,18 +108,26 @@ export default function DogProfilePage() {
 
       <main className="mx-auto max-w-[1100px] px-6 py-12">
         {/* Dog header */}
-        <div className="mb-10 flex items-center gap-6">
-          {dog.photo_url ? (
-            <div className="relative h-20 w-20 overflow-hidden rounded-full">
-              <Image src={dog.photo_url} alt={dog.name} fill className="object-cover" />
+        <div className="mb-10 flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            {dog.photo_url ? (
+              <div className="relative h-20 w-20 overflow-hidden rounded-full border-4 border-orange">
+                <Image src={dog.photo_url} alt={dog.name} fill className="object-cover" />
+              </div>
+            ) : (
+              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-navy text-[2rem]">🐾</div>
+            )}
+            <div>
+              <h1 className="font-heading text-[2rem] font-extrabold text-navy">{dog.name}</h1>
+              {dog.breed && <p className="font-sub text-[1rem] italic text-slate">{dog.breed}</p>}
             </div>
-          ) : (
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-navy text-[2rem]">🐾</div>
-          )}
-          <div>
-            <h1 className="font-heading text-[2rem] font-extrabold text-navy">{dog.name}</h1>
-            {dog.breed && <p className="font-sub text-[1rem] italic text-slate">{dog.breed}</p>}
           </div>
+          <a
+            href={`/dashboard/dog/${dog.id}/edit`}
+            className="rounded-[10px] bg-orange px-5 py-2.5 font-heading text-[0.9rem] font-bold text-cream transition hover:-translate-y-0.5 hover:bg-orange-dark"
+          >
+            Edit Profile
+          </a>
         </div>
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
