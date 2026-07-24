@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
 import type { Dog, DogSafety, DogRoutine, DogBehavior, DogShareLink } from "@/types/database";
 
 type CompatLabel = "yes" | "no" | "caution";
@@ -26,33 +25,18 @@ export default function PublicProfilePage() {
 
   useEffect(() => {
     async function load() {
-      const { data: linkData } = await supabase
-        .from("dog_share_links")
-        .select("*")
-        .eq("token", token)
-        .single();
+      const res = await fetch(`/api/profile/${token}`);
 
-      if (!linkData) { setNotFound(true); setLoading(false); return; }
-      setLink(linkData);
+      if (!res.ok) { setNotFound(true); setLoading(false); return; }
 
-      const { data: dogData } = await supabase
-        .from("dogs")
-        .select("*")
-        .eq("id", linkData.dog_id)
-        .single();
+      const data = await res.json();
+      if (data.error) { setNotFound(true); setLoading(false); return; }
 
-      if (!dogData) { setNotFound(true); setLoading(false); return; }
-      setDog(dogData);
-
-      const [safetyRes, routineRes, behaviorRes] = await Promise.all([
-        linkData.show_safety ? supabase.from("dog_safety").select("*").eq("dog_id", linkData.dog_id).single() : null,
-        linkData.show_routine ? supabase.from("dog_routine").select("*").eq("dog_id", linkData.dog_id).single() : null,
-        linkData.show_behavior ? supabase.from("dog_behavior").select("*").eq("dog_id", linkData.dog_id).single() : null,
-      ]);
-
-      if (safetyRes) setSafety(safetyRes.data);
-      if (routineRes) setRoutine(routineRes.data);
-      if (behaviorRes) setBehavior(behaviorRes.data);
+      setLink(data.link);
+      setDog(data.dog);
+      setSafety(data.safety);
+      setRoutine(data.routine);
+      setBehavior(data.behavior);
       setLoading(false);
     }
 
