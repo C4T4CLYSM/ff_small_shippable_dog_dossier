@@ -111,11 +111,11 @@ export default function DogProfilePage() {
         <div className="mb-10 flex items-center justify-between">
           <div className="flex items-center gap-6">
             {dog.photo_url ? (
-              <div className="relative h-20 w-20 overflow-hidden rounded-full border-4 border-orange">
+              <div className="relative h-28 w-28 overflow-hidden rounded-full border-4 border-orange">
                 <Image src={dog.photo_url} alt={dog.name} fill className="object-cover" />
               </div>
             ) : (
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-navy text-[2rem]">🐾</div>
+              <div className="flex h-28 w-28 items-center justify-center rounded-full bg-navy text-[2.5rem]">🐾</div>
             )}
             <div>
               <h1 className="font-heading text-[2rem] font-extrabold text-navy">{dog.name}</h1>
