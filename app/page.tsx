@@ -11,6 +11,15 @@ const pricingRows = [
 ];
 
 const STRIPE_LINK = "https://buy.stripe.com/5kQ3cu1xZcu78CLfF6cjS01";
+const INSTAGRAM_URL = "https://www.instagram.com/dogdossier/";
+
+const IconInstagram = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5" />
+    <circle cx="12" cy="12" r="5" />
+    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+  </svg>
+);
 
 const IconClipboard = () => (
   <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -80,14 +89,20 @@ export default function Home() {
             className="object-contain"
             priority
           />
-          <a
-            href={STRIPE_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-[10px] bg-orange px-[22px] py-[10px] font-heading text-[0.95rem] font-bold text-cream transition hover:-translate-y-0.5 hover:bg-orange-dark hover:shadow-[0_6px_20px_rgba(234,88,12,0.35)]"
-          >
-            Join as Founder
-          </a>
+          <div className="flex items-center gap-4">
+            <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
+              className="text-cream/60 transition hover:text-cream">
+              <IconInstagram />
+            </a>
+            <a
+              href={STRIPE_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-[10px] bg-orange px-[22px] py-[10px] font-heading text-[0.95rem] font-bold text-cream transition hover:-translate-y-0.5 hover:bg-orange-dark hover:shadow-[0_6px_20px_rgba(234,88,12,0.35)]"
+            >
+              Join as Founder
+            </a>
+          </div>
         </div>
       </header>
 
@@ -242,9 +257,15 @@ export default function Home() {
             height={40}
             className="object-contain"
           />
-          <span className="text-[0.82rem] text-cream/50">
-            © 2026 Dog Dossier. Made with ❤️ for dogs everywhere.
-          </span>
+          <div className="flex items-center gap-4">
+            <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
+              className="text-cream/40 transition hover:text-cream/80">
+              <IconInstagram />
+            </a>
+            <span className="text-[0.82rem] text-cream/50">
+              © 2026 Dog Dossier. Made with ❤️ for dogs everywhere.
+            </span>
+          </div>
         </div>
       </footer>
     </>
