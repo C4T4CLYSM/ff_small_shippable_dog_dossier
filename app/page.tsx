@@ -135,8 +135,7 @@ export default function Home() {
             One profile. Infinite handouts.
           </h2>
           <p className="mx-auto mb-12 max-w-[560px] font-sub text-[1.1rem] italic text-slate">
-            One shareable link with everything your dog&apos;s people need to know —
-            health info, routines, emergency contacts, quirks, and more.
+            Everything your dog&apos;s caregivers need, always up to date.
           </p>
           <div className="grid grid-cols-1 gap-6 text-left sm:grid-cols-2 lg:grid-cols-3">
             <Card title="Complete Profile" icon={<IconClipboard />}>
