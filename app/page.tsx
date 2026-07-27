@@ -122,6 +122,9 @@ export default function Home() {
             <br />
             updates
           </h1>
+          <p className="mx-auto mt-5 max-w-[560px] font-sub text-[1.1rem] italic text-cream/80">
+            Create a shareable profile with your dog&apos;s health information, emergency contacts, routines, and more. One link for every caregiver.
+          </p>
         </div>
       </section>
 
