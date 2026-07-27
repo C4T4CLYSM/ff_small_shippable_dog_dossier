@@ -152,9 +152,9 @@ export default function Home() {
       </section>
 
       {/* Section 3: Who it's for */}
-      <section className="px-6 py-20 text-center">
+      <section className="bg-navy px-6 py-20 text-center">
         <div className="mx-auto max-w-[1100px]">
-          <h2 className="mb-12 font-heading text-[clamp(1.8rem,4vw,2.6rem)] font-extrabold tracking-tight text-navy">
+          <h2 className="mb-12 font-heading text-[clamp(1.8rem,4vw,2.6rem)] font-extrabold tracking-tight text-cream">
             Built for the whole pack.
           </h2>
           <div className="grid grid-cols-1 gap-6 text-left sm:grid-cols-2 lg:grid-cols-3">
