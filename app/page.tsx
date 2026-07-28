@@ -84,9 +84,9 @@ export default function Home() {
           <Image
             src="/wordmark.png"
             alt="Dog Dossier"
-            width={380}
-            height={90}
-            className="object-contain"
+            width={160}
+            height={40}
+            className="object-contain sm:w-[220px]"
             priority
           />
           <div className="flex items-center gap-3">
@@ -98,7 +98,7 @@ export default function Home() {
               href={STRIPE_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-[10px] bg-orange px-3 py-2 font-heading text-[0.8rem] font-bold text-cream transition hover:-translate-y-0.5 hover:bg-orange-dark hover:shadow-[0_6px_20px_rgba(234,88,12,0.35)] sm:px-[22px] sm:py-[10px] sm:text-[0.95rem]"
+              className="rounded-[10px] bg-orange px-3 py-2 text-center font-heading text-[0.75rem] font-bold leading-tight text-cream transition hover:-translate-y-0.5 hover:bg-orange-dark hover:shadow-[0_6px_20px_rgba(234,88,12,0.35)] sm:px-[22px] sm:py-[10px] sm:text-[0.95rem]"
             >
               Join as Founder
             </a>
