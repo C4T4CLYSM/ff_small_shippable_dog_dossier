@@ -172,22 +172,24 @@ export default function Home() {
       </section>
 
       {/* Section 4: Founder CTA + pricing */}
-      <section className="bg-cream px-6 py-20 text-center">
+      <section className="bg-navy px-6 py-20 text-center">
         <div className="mx-auto max-w-[1100px]">
-          <h2 className="mb-4 font-heading text-[clamp(1.8rem,4vw,2.6rem)] font-extrabold tracking-tight text-navy">
-            Ready to build your dog&apos;s dossier?
-          </h2>
-          <p className="mx-auto mb-12 max-w-[560px] font-sub text-[1.1rem] italic text-slate">
-            Join our founding members and secure lifetime access. Help us build the safest way to care for dogs.
-          </p>
-          <a
-            href={STRIPE_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-2 inline-block rounded-[10px] bg-orange px-9 py-4 font-heading text-[1.05rem] font-bold text-cream transition hover:-translate-y-0.5 hover:bg-orange-dark hover:shadow-[0_6px_20px_rgba(234,88,12,0.35)]"
-          >
-            Join as Founder
-          </a>
+          <div className="mx-auto max-w-[700px] rounded-3xl border border-orange/30 bg-navy p-10 shadow-[0_0_80px_rgba(234,88,12,0.12)]">
+            <h2 className="mb-4 font-heading text-[clamp(1.8rem,4vw,2.6rem)] font-extrabold tracking-tight text-cream">
+              Ready to build your dog&apos;s dossier?
+            </h2>
+            <p className="mx-auto mb-8 max-w-[480px] font-sub text-[1.05rem] italic text-cream/60">
+              Join our founding members and secure lifetime access. Help us build the safest way to care for dogs.
+            </p>
+            <a
+              href={STRIPE_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block rounded-[10px] bg-orange px-9 py-4 font-heading text-[1.05rem] font-bold text-cream transition hover:-translate-y-0.5 hover:bg-orange-dark hover:shadow-[0_6px_20px_rgba(234,88,12,0.35)]"
+            >
+              Join as Founder — $29
+            </a>
+          </div>
 
           {/* Mobile: stacked cards */}
           <div className="mt-14 grid grid-cols-1 gap-4 sm:hidden">
@@ -250,6 +252,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
 
       {/* Section 5: Waitlist */}
       <section id="signup" className="bg-cream px-6 py-20 text-center">
