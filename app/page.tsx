@@ -158,13 +158,13 @@ export default function Home() {
             Built for the whole pack.
           </h2>
           <div className="grid grid-cols-1 gap-6 text-left sm:grid-cols-2 lg:grid-cols-3">
-            <Card title="Dog Walkers & Sitters" icon={<IconPaw />}>
+            <Card title="Dog Walkers & Sitters" icon={<IconPaw />} dark>
               Get the info you need before the first walk. Emergency contacts, vet info, and behavioral notes — all pre-loaded.
             </Card>
-            <Card title="Vets & Boarding" icon={<IconMedical />}>
+            <Card title="Vets & Boarding" icon={<IconMedical />} dark>
               Intake in seconds. Scan the QR code and you have the full picture — vaccines, medications, allergies, and more.
             </Card>
-            <Card title="Dog Owners & Trainers" icon={<IconHome />}>
+            <Card title="Dog Owners & Trainers" icon={<IconHome />} dark>
               Your dog&apos;s profile lives at one URL. Update it once and everyone who has the link — sitters, vets, or trainers — sees the latest version.
             </Card>
           </div>
@@ -174,9 +174,6 @@ export default function Home() {
       {/* Section 4: Founder CTA + pricing */}
       <section className="bg-cream px-6 py-20 text-center">
         <div className="mx-auto max-w-[1100px]">
-          <span className="mb-4 inline-block rounded-full bg-orange/10 px-4 py-1.5 font-heading text-[0.8rem] font-bold uppercase tracking-widest text-orange">
-            Founder Pricing
-          </span>
           <h2 className="mb-4 font-heading text-[clamp(1.8rem,4vw,2.6rem)] font-extrabold tracking-tight text-navy">
             Ready to build your dog&apos;s dossier?
           </h2>
@@ -305,9 +302,9 @@ export default function Home() {
   );
 }
 
-function Card({ title, icon, children }: { title: string; icon: React.ReactNode; children: React.ReactNode }) {
+function Card({ title, icon, children, dark = false }: { title: string; icon: React.ReactNode; children: React.ReactNode; dark?: boolean }) {
   return (
-    <div className="rounded-2xl border-t-[3px] border-orange bg-slate p-7 transition hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(30,41,59,0.18)]">
+    <div className={`rounded-2xl bg-slate p-7 transition hover:-translate-y-1 ${dark ? "border border-cream/10 hover:border-cream/20" : "shadow-[0_4px_20px_rgba(30,41,59,0.13)] hover:shadow-[0_12px_32px_rgba(30,41,59,0.2)]"}`}>
       <div className="mb-4 text-cream">{icon}</div>
       <h3 className="mb-2.5 font-heading text-[1.15rem] font-bold text-cream">{title}</h3>
       <p className="text-[0.95rem] leading-[1.7] text-cream/80">{children}</p>
