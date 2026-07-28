@@ -89,16 +89,16 @@ export default function Home() {
             className="object-contain"
             priority
           />
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
-              className="text-cream/60 transition hover:text-cream">
+              className="hidden text-cream/60 transition hover:text-cream sm:block">
               <IconInstagram />
             </a>
             <a
               href={STRIPE_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-[10px] bg-orange px-[22px] py-[10px] font-heading text-[0.95rem] font-bold text-cream transition hover:-translate-y-0.5 hover:bg-orange-dark hover:shadow-[0_6px_20px_rgba(234,88,12,0.35)]"
+              className="rounded-[10px] bg-orange px-3 py-2 font-heading text-[0.8rem] font-bold text-cream transition hover:-translate-y-0.5 hover:bg-orange-dark hover:shadow-[0_6px_20px_rgba(234,88,12,0.35)] sm:px-[22px] sm:py-[10px] sm:text-[0.95rem]"
             >
               Join as Founder
             </a>
@@ -189,8 +189,35 @@ export default function Home() {
             Join as Founder
           </a>
 
-          <div className="mt-14 overflow-x-auto">
-            <table className="min-w-[560px] w-full overflow-hidden rounded-2xl border-collapse bg-navy text-[0.95rem]">
+          {/* Mobile: stacked cards */}
+          <div className="mt-14 grid grid-cols-1 gap-4 sm:hidden">
+            <div className="overflow-hidden rounded-2xl border-t-4 border-orange bg-navy">
+              <div className="bg-orange px-5 py-3.5 text-left font-heading font-bold text-cream">
+                🏆 Founding Member
+              </div>
+              {pricingRows.map((row, i) => (
+                <div key={row.feature} className={`flex justify-between px-5 py-3.5 ${i !== pricingRows.length - 1 ? "border-b border-cream/10" : ""}`}>
+                  <span className="text-[0.85rem] text-cream/60">{row.feature}</span>
+                  <span className="text-right text-[0.85rem] font-bold text-cream">{row.founder}</span>
+                </div>
+              ))}
+            </div>
+            <div className="overflow-hidden rounded-2xl bg-navy">
+              <div className="bg-slate px-5 py-3.5 text-left font-heading font-bold text-cream">
+                🚀 Public Launch
+              </div>
+              {pricingRows.map((row, i) => (
+                <div key={row.feature} className={`flex justify-between px-5 py-3.5 ${i !== pricingRows.length - 1 ? "border-b border-cream/10" : ""}`}>
+                  <span className="text-[0.85rem] text-cream/60">{row.feature}</span>
+                  <span className="text-right text-[0.85rem] text-cream">{row.launch}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop: full table */}
+          <div className="mt-14 hidden overflow-x-auto sm:block">
+            <table className="w-full overflow-hidden rounded-2xl border-collapse bg-navy text-[0.95rem]">
               <thead>
                 <tr>
                   <th className="border-b border-cream/10 bg-slate px-5 py-3.5 text-left font-heading font-bold text-cream">
