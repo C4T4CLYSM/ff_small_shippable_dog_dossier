@@ -90,10 +90,6 @@ export default function Home() {
             priority
           />
           <div className="flex items-center gap-3">
-            <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
-              className="hidden text-cream/60 transition hover:text-cream sm:block">
-              <IconInstagram />
-            </a>
             <a
               href={STRIPE_LINK}
               target="_blank"
@@ -101,6 +97,10 @@ export default function Home() {
               className="rounded-[10px] bg-orange px-3 py-2 text-center font-heading text-[0.75rem] font-bold leading-tight text-cream transition hover:-translate-y-0.5 hover:bg-orange-dark hover:shadow-[0_6px_20px_rgba(234,88,12,0.35)] sm:px-[22px] sm:py-[10px] sm:text-[0.95rem]"
             >
               Join as Founder
+            </a>
+            <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
+              className="hidden text-cream/60 transition hover:text-cream sm:block">
+              <IconInstagram />
             </a>
           </div>
         </div>
