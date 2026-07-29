@@ -127,6 +127,14 @@ export default function Home() {
           <p className="mx-auto mt-5 max-w-[560px] font-sub text-[1.1rem] italic text-cream/80">
             Create a shareable profile with your dog&apos;s health information, emergency contacts, routines, and more. One link for every caregiver.
           </p>
+          <a
+            href={STRIPE_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-8 inline-block rounded-[10px] bg-orange px-9 py-4 font-heading text-[1.05rem] font-bold text-cream transition hover:-translate-y-0.5 hover:bg-orange-dark hover:shadow-[0_6px_20px_rgba(234,88,12,0.45)]"
+          >
+            Join as Founder — $29
+          </a>
         </div>
       </section>
 
