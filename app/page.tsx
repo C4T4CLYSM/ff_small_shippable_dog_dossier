@@ -324,7 +324,7 @@ export default function Home() {
 function Card({ title, icon, children, dark = false }: { title: string; icon: React.ReactNode; children: React.ReactNode; dark?: boolean }) {
   return (
     <div className={`rounded-2xl bg-slate p-7 transition hover:-translate-y-1 ${dark ? "border border-cream/10 hover:border-cream/20" : "shadow-[0_4px_20px_rgba(30,41,59,0.13)] hover:shadow-[0_12px_32px_rgba(30,41,59,0.2)]"}`}>
-      <div className="mb-4 text-cream">{icon}</div>
+      <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-cream text-navy">{icon}</div>
       <h3 className="mb-2.5 font-heading text-[1.15rem] font-bold text-cream">{title}</h3>
       <p className="text-[0.95rem] leading-[1.7] text-cream/80">{children}</p>
     </div>
