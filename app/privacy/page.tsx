@@ -50,7 +50,7 @@ export default function PrivacyPage() {
         </Section>
 
         <Section title="Contact">
-          <p>Questions about this policy? Email us at <a href="mailto:cataclysmllc@pm.me" className="text-orange underline hover:text-orange-dark">cataclysmllc@pm.me</a>.</p>
+          <p>Questions about this policy? Email us at <a href="mailto:contact@dogdossier.app" className="text-orange underline hover:text-orange-dark">contact@dogdossier.app</a>.</p>
         </Section>
       </main>
 
