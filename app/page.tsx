@@ -81,14 +81,16 @@ export default function Home() {
     <>
       <header className="sticky top-0 z-50 bg-navy py-[18px]">
         <div className="mx-auto flex max-w-[1100px] items-center justify-between px-6">
-          <Image
-            src="/wordmark.png"
-            alt="Dog Dossier"
-            width={160}
-            height={40}
-            className="object-contain sm:w-[220px]"
-            priority
-          />
+          <a href="/">
+            <Image
+              src="/wordmark.png"
+              alt="Dog Dossier"
+              width={160}
+              height={40}
+              className="object-contain sm:w-[220px]"
+              priority
+            />
+          </a>
           <div className="flex items-center gap-3">
             <a
               href={STRIPE_LINK}
@@ -278,23 +280,32 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="bg-navy px-6 py-7">
-        <div className="mx-auto flex max-w-[1100px] flex-wrap items-center justify-between gap-3">
-          <Image
-            src="/wordmark.png"
-            alt="Dog Dossier"
-            width={150}
-            height={40}
-            className="object-contain"
-          />
-          <div className="flex items-center gap-4">
+      <footer className="bg-navy px-6 py-10">
+        <div className="mx-auto max-w-[1100px]">
+          <div className="flex flex-wrap items-center justify-between gap-6 border-b border-cream/10 pb-8">
+            <a href="/">
+              <Image
+                src="/wordmark.png"
+                alt="Dog Dossier"
+                width={150}
+                height={40}
+                className="object-contain"
+              />
+            </a>
+            <nav className="flex flex-wrap items-center gap-x-6 gap-y-3">
+              <a href="/" className="font-heading text-[0.85rem] text-cream/50 transition hover:text-cream">Home</a>
+              <a href="/privacy" className="font-heading text-[0.85rem] text-cream/50 transition hover:text-cream">Privacy Policy</a>
+              <a href="/terms" className="font-heading text-[0.85rem] text-cream/50 transition hover:text-cream">Terms of Use</a>
+              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
+                className="font-heading text-[0.85rem] text-cream/50 transition hover:text-cream">Contact</a>
+            </nav>
+          </div>
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-6">
+            <span className="text-[0.82rem] text-cream/40">© 2026 Dog Dossier. All rights reserved.</span>
             <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
               className="text-cream/40 transition hover:text-cream/80">
               <IconInstagram />
             </a>
-            <span className="text-[0.82rem] text-cream/50">
-              © 2026 Dog Dossier. Made with ❤️ for dogs everywhere.
-            </span>
           </div>
         </div>
       </footer>
