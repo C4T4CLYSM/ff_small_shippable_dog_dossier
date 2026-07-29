@@ -139,7 +139,7 @@ export default function Home() {
       </section>
 
       {/* Section 2: What Dog Dossier is */}
-      <section className="px-6 py-20 text-center">
+      <section className="px-6 pb-24 pt-16 text-center">
         <div className="mx-auto max-w-[1100px]">
           <h2 className="mb-4 font-heading text-[clamp(1.8rem,4vw,2.6rem)] font-extrabold tracking-tight text-navy">
             One profile. Infinite handouts.
@@ -162,7 +162,7 @@ export default function Home() {
       </section>
 
       {/* Section 3: Who it's for */}
-      <section className="bg-navy px-6 py-20 text-center">
+      <section className="bg-navy px-6 py-24 text-center">
         <div className="mx-auto max-w-[1100px]">
           <h2 className="mb-12 font-heading text-[clamp(1.8rem,4vw,2.6rem)] font-extrabold tracking-tight text-cream">
             Built for the whole pack.
@@ -182,7 +182,7 @@ export default function Home() {
       </section>
 
       {/* Section 4: Founder CTA + pricing */}
-      <section className="bg-cream px-6 py-20 text-center">
+      <section className="bg-cream px-6 py-24 text-center">
         <div className="mx-auto max-w-[1100px]">
           <h2 className="mb-4 font-heading text-[clamp(1.8rem,4vw,2.6rem)] font-extrabold tracking-tight text-navy">
             Ready to build your dog&apos;s dossier?
@@ -263,7 +263,7 @@ export default function Home() {
 
 
       {/* Section 5: Waitlist */}
-      <section id="signup" className="bg-cream px-6 py-20 text-center">
+      <section id="signup" className="border-t border-navy/10 bg-cream px-6 py-24 text-center">
         <div className="mx-auto max-w-[1100px]">
           <h2 className="mb-4 font-heading text-[clamp(1.8rem,4vw,2.6rem)] font-extrabold tracking-tight text-navy">
             Not ready to be a founder?
