@@ -17,6 +17,9 @@ export default function DogProfilePage() {
   const [newLinkLabel, setNewLinkLabel] = useState("");
   const [creatingLink, setCreatingLink] = useState(false);
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteConfirmName, setDeleteConfirmName] = useState("");
+  const [deleting, setDeleting] = useState(false);
 
   const [newLinkVisibility, setNewLinkVisibility] = useState({
     show_basics: true,
@@ -75,6 +78,30 @@ export default function DogProfilePage() {
   async function deleteShareLink(linkId: string) {
     await supabase.from("dog_share_links").delete().eq("id", linkId);
     setShareLinks(prev => prev.filter(l => l.id !== linkId));
+  }
+
+  async function handleDeleteDog() {
+    if (!dog || deleteConfirmName !== dog.name) return;
+    setDeleting(true);
+
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) return;
+
+    const res = await fetch("/api/delete-dog", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${session.access_token}`,
+      },
+      body: JSON.stringify({ dogId: dog.id }),
+    });
+
+    if (res.ok) {
+      window.location.href = "/dashboard";
+    } else {
+      setDeleting(false);
+      alert("Failed to delete dog profile. Please try again.");
+    }
   }
 
   function copyLink(token: string) {
@@ -252,6 +279,48 @@ export default function DogProfilePage() {
               {creatingLink ? "Creating..." : "Create Link"}
             </button>
           </div>
+        </div>
+        {/* Danger Zone */}
+        <div className="mt-8 rounded-2xl border border-red-200 p-8">
+          <h2 className="mb-2 font-heading text-[1.1rem] font-extrabold text-red-600">Danger Zone</h2>
+          <p className="mb-5 text-[0.9rem] leading-relaxed text-slate">
+            Permanently delete {dog.name}&apos;s profile, including all photos, routines, and share links. This cannot be undone.
+          </p>
+          {!showDeleteConfirm ? (
+            <button
+              onClick={() => setShowDeleteConfirm(true)}
+              className="rounded-[10px] border border-red-300 px-5 py-2.5 font-heading text-[0.9rem] font-bold text-red-600 transition hover:bg-red-50"
+            >
+              Delete {dog.name}&apos;s Profile
+            </button>
+          ) : (
+            <div className="rounded-xl bg-red-50 p-5">
+              <p className="mb-3 text-[0.9rem] font-bold text-red-700">
+                Type <span className="font-mono font-extrabold">{dog.name}</span> to confirm:
+              </p>
+              <input
+                value={deleteConfirmName}
+                onChange={e => setDeleteConfirmName(e.target.value)}
+                placeholder={dog.name}
+                className="mb-4 w-full rounded-xl border border-red-200 bg-white px-4 py-3 text-[0.95rem] text-navy outline-none focus:border-red-400"
+              />
+              <div className="flex gap-3">
+                <button
+                  onClick={handleDeleteDog}
+                  disabled={deleteConfirmName !== dog.name || deleting}
+                  className="rounded-[10px] bg-red-600 px-5 py-2.5 font-heading text-[0.9rem] font-bold text-white transition hover:bg-red-700 disabled:opacity-40"
+                >
+                  {deleting ? "Deleting..." : "Confirm Delete"}
+                </button>
+                <button
+                  onClick={() => { setShowDeleteConfirm(false); setDeleteConfirmName(""); }}
+                  className="rounded-[10px] border border-red-200 px-5 py-2.5 font-heading text-[0.9rem] text-red-600 transition hover:bg-white"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </main>
     </div>

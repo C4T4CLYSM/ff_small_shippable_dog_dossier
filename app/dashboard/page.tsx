@@ -56,6 +56,12 @@ export default function DashboardPage() {
           </a>
           <div className="flex items-center gap-4">
             <span className="hidden text-[0.85rem] text-cream/50 sm:block">{userEmail}</span>
+            <a
+              href="/dashboard/settings"
+              className="rounded-[10px] border border-cream/20 px-4 py-2 font-heading text-[0.9rem] text-cream/70 transition hover:border-cream/40 hover:text-cream"
+            >
+              Settings
+            </a>
             <button
               onClick={handleLogout}
               className="rounded-[10px] border border-cream/20 px-4 py-2 font-heading text-[0.9rem] text-cream/70 transition hover:border-cream/40 hover:text-cream"
