@@ -80,7 +80,7 @@ export default function Home() {
   return (
     <>
       <header className="sticky top-0 z-50 bg-navy py-[18px]">
-        <div className="mx-auto flex max-w-[1100px] items-center justify-between px-6">
+        <div className="flex items-center justify-between px-6 lg:px-10">
           <a href="/">
             <Image
               src="/wordmark.png"
@@ -288,8 +288,8 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="bg-navy px-6 py-10">
-        <div className="mx-auto max-w-[1100px]">
+      <footer className="bg-navy px-6 lg:px-10 py-10">
+        <div>
           <div className="flex flex-wrap items-center justify-between gap-6 border-b border-cream/10 pb-8">
             <a href="/">
               <Image

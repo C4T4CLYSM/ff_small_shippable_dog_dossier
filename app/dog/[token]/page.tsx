@@ -66,12 +66,10 @@ export default function PublicProfilePage() {
   return (
     <div className="min-h-screen bg-cream">
       {/* Header */}
-      <header className="bg-navy px-6 py-[18px]">
-        <div className="mx-auto max-w-[720px]">
-          <a href="/">
-            <Image src="/wordmark.png" alt="Dog Dossier" width={140} height={34} className="object-contain" />
-          </a>
-        </div>
+      <header className="bg-navy px-6 lg:px-10 py-[18px]">
+        <a href="/">
+          <Image src="/wordmark.png" alt="Dog Dossier" width={140} height={34} className="object-contain" />
+        </a>
       </header>
 
       {/* Dog hero */}

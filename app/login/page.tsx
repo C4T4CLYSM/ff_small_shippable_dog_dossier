@@ -47,7 +47,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-cream">
       {/* Nav header */}
       <header className="sticky top-0 z-50 bg-navy py-[18px]">
-        <div className="px-6 lg:px-16">
+        <div className="px-6 lg:px-10">
           <a href="/">
             <Image src="/wordmark.png" alt="Dog Dossier" width={160} height={40} className="object-contain sm:w-[220px]" priority />
           </a>
@@ -190,8 +190,8 @@ export default function LoginPage() {
           </div>
         </div>
       </main>
-      <footer className="bg-navy px-6 py-10">
-        <div className="mx-auto max-w-[1100px]">
+      <footer className="bg-navy px-6 lg:px-10 py-10">
+        <div>
           <div className="flex flex-wrap items-center justify-between gap-6 border-b border-cream/10 pb-8">
             <a href="/">
               <Image src="/wordmark.png" alt="Dog Dossier" width={150} height={40} className="object-contain" />
