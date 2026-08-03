@@ -37,16 +37,16 @@ export default function LoginPage() {
     <div className="min-h-screen bg-cream">
       {/* Nav header */}
       <header className="sticky top-0 z-50 bg-navy py-[18px]">
-        <div className="mx-auto flex max-w-[1100px] items-center justify-between px-6">
+        <div className="px-6 lg:px-16">
           <a href="/">
             <Image src="/wordmark.png" alt="Dog Dossier" width={160} height={40} className="object-contain sm:w-[220px]" priority />
           </a>
         </div>
       </header>
 
-      <main className="flex min-h-[calc(100vh-80px)]">
+      <main className="flex min-h-[calc(100vh-80px)] bg-navy">
         {/* Left brand panel — desktop only */}
-        <div className="hidden lg:flex lg:w-[45%] flex-col justify-center bg-navy px-16 py-20">
+        <div className="hidden lg:flex lg:w-[45%] flex-col justify-center px-16 py-20">
           <h2 className="mb-4 font-heading text-[2rem] font-extrabold leading-tight text-cream">
             Your dog&apos;s information,<br />always at hand.
           </h2>
@@ -68,7 +68,7 @@ export default function LoginPage() {
         </div>
 
         {/* Right form panel */}
-        <div className="flex flex-1 items-center justify-center px-6 py-12">
+        <div className="flex flex-1 items-center justify-center bg-cream px-6 py-12 lg:rounded-l-[2.5rem]">
           <div className="w-full max-w-[420px]">
 
             {forgotMode ? (
