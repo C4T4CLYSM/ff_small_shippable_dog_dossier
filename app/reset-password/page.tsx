@@ -32,10 +32,10 @@ export default function ResetPasswordPage() {
 
   return (
     <div className="min-h-screen bg-cream">
-      <header className="bg-navy py-[18px]">
-        <div className="mx-auto max-w-[1100px] px-6">
+      <header className="sticky top-0 z-50 bg-navy py-[18px]">
+        <div className="mx-auto flex max-w-[1100px] items-center justify-between px-6">
           <a href="/">
-            <Image src="/wordmark-logo.png" alt="Dog Dossier" width={180} height={44} className="object-contain" />
+            <Image src="/wordmark.png" alt="Dog Dossier" width={160} height={40} className="object-contain sm:w-[220px]" priority />
           </a>
         </div>
       </header>
