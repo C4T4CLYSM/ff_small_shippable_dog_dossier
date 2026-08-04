@@ -54,7 +54,17 @@ export default function LoginPage() {
         </div>
       </header>
 
-      <main className="flex min-h-[calc(100vh-80px)] bg-navy">
+      <main className="flex flex-col min-h-[calc(100vh-80px)] bg-navy lg:flex-row">
+        {/* Mobile-only headline */}
+        <div className="lg:hidden px-6 pb-8 pt-10 text-center">
+          <h2 className="font-heading text-[1.5rem] font-extrabold leading-tight text-cream">
+            Your dog&apos;s information,<br />always at hand.
+          </h2>
+          <p className="mt-2 font-sub text-[0.95rem] italic text-cream/60">
+            One profile. Every caregiver covered.
+          </p>
+        </div>
+
         {/* Left brand panel — desktop only */}
         <div className="hidden lg:flex lg:w-[45%] flex-col justify-center px-16 py-20">
           <h2 className="mb-4 font-heading text-[2rem] font-extrabold leading-tight text-cream">

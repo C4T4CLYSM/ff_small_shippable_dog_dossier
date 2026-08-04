@@ -61,7 +61,17 @@ export default function SignupPage() {
         </div>
       </header>
 
-      <main className="flex min-h-[calc(100vh-80px)] bg-navy">
+      <main className="flex flex-col min-h-[calc(100vh-80px)] bg-navy lg:flex-row">
+        {/* Mobile-only headline */}
+        <div className="lg:hidden px-6 pb-8 pt-10 text-center">
+          <h2 className="font-heading text-[1.5rem] font-extrabold leading-tight text-cream">
+            Your dog deserves a dossier.
+          </h2>
+          <p className="mt-2 font-sub text-[0.95rem] italic text-cream/60">
+            Set up in minutes. Share instantly.
+          </p>
+        </div>
+
         {/* Left form panel — cream with rounded right corners on desktop */}
         <div className="flex flex-1 items-center justify-center bg-cream px-6 py-12 lg:rounded-r-[2.5rem]">
           <div className="w-full max-w-[420px]">
