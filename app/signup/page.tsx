@@ -61,13 +61,13 @@ export default function SignupPage() {
         </div>
       </header>
 
-      <main className="flex flex-col min-h-[calc(100vh-80px)] bg-navy lg:flex-row">
+      <main className="flex flex-col min-h-[calc(100vh-80px)] bg-cream lg:bg-navy lg:flex-row">
         {/* Mobile-only headline */}
-        <div className="lg:hidden px-6 pb-8 pt-10 text-center">
-          <h2 className="font-heading text-[1.5rem] font-extrabold leading-tight text-cream">
-            Your dog deserves a dossier.
+        <div className="lg:hidden px-6 pb-6 pt-10">
+          <h2 className="font-heading text-[1.8rem] font-extrabold leading-tight text-navy">
+            Your dog deserves<br />a dossier.
           </h2>
-          <p className="mt-2 font-sub text-[0.95rem] italic text-cream/60">
+          <p className="mt-2 font-sub text-[1rem] italic text-slate">
             Set up in minutes. Share instantly.
           </p>
         </div>
