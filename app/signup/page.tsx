@@ -132,33 +132,37 @@ export default function SignupPage() {
         </div>
 
         {/* Right brand panel — desktop only */}
-        <div className="hidden lg:flex lg:w-[45%] flex-col justify-center px-16 py-20">
-          <h2 className="mb-4 font-heading text-[2rem] font-extrabold leading-tight text-cream">
-            Your dog deserves<br />a dossier.
-          </h2>
-          <p className="mb-10 font-sub text-[1rem] italic text-cream/60">
-            Set up in minutes. Share instantly.
-          </p>
-          <ul className="flex flex-col gap-5">
-            {[
-              "Health records, medications, and allergies in one place",
-              "Custom share links for walkers, vets, and boarding",
-              "Your dog's info is always current — update once, share forever",
-            ].map((item, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <span className="mt-[6px] h-2 w-2 flex-shrink-0 rounded-full bg-orange" />
-                <span className="text-[0.95rem] leading-relaxed text-cream/70">{item}</span>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-12 border-t border-cream/10 pt-8">
-            <p className="font-sub text-[0.85rem] italic text-cream/40">
-              Haven&apos;t purchased yet?{" "}
-              <a href={STRIPE_LINK} target="_blank" rel="noopener noreferrer"
-                className="text-orange hover:underline">
-                Get founder access for $29 →
-              </a>
+        <div className="relative hidden overflow-hidden lg:flex lg:w-[45%] flex-col justify-center px-16 py-20">
+          <Image src="/signup-hero.png" alt="" fill className="object-cover" priority />
+          <div className="absolute inset-0 bg-navy/60" />
+          <div className="relative z-10">
+            <h2 className="mb-4 font-heading text-[2rem] font-extrabold leading-tight text-cream">
+              Your dog deserves<br />a dossier.
+            </h2>
+            <p className="mb-10 font-sub text-[1rem] italic text-cream/60">
+              Set up in minutes. Share instantly.
             </p>
+            <ul className="flex flex-col gap-5">
+              {[
+                "Health records, medications, and allergies in one place",
+                "Custom share links for walkers, vets, and boarding",
+                "Your dog's info is always current — update once, share forever",
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="mt-[6px] h-2 w-2 flex-shrink-0 rounded-full bg-orange" />
+                  <span className="text-[0.95rem] leading-relaxed text-cream/70">{item}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-12 border-t border-cream/10 pt-8">
+              <p className="font-sub text-[0.85rem] italic text-cream/40">
+                Haven&apos;t purchased yet?{" "}
+                <a href={STRIPE_LINK} target="_blank" rel="noopener noreferrer"
+                  className="text-orange hover:underline">
+                  Get founder access for $29 →
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </main>

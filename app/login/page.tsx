@@ -66,25 +66,29 @@ export default function LoginPage() {
         </div>
 
         {/* Left brand panel — desktop only */}
-        <div className="hidden lg:flex lg:w-[45%] flex-col justify-center px-16 py-20">
-          <h2 className="mb-4 font-heading text-[2rem] font-extrabold leading-tight text-cream">
-            Your dog&apos;s information,<br />always at hand.
-          </h2>
-          <p className="mb-10 font-sub text-[1rem] italic text-cream/60">
-            One profile. Every caregiver covered.
-          </p>
-          <ul className="flex flex-col gap-5">
-            {[
-              "Shareable links and QR codes for walkers, vets, and sitters",
-              "Emergency contacts and medical info in one place",
-              "Update once — everyone sees the latest",
-            ].map((item, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <span className="mt-[6px] h-2 w-2 flex-shrink-0 rounded-full bg-orange" />
-                <span className="text-[0.95rem] leading-relaxed text-cream/70">{item}</span>
-              </li>
-            ))}
-          </ul>
+        <div className="relative hidden overflow-hidden lg:flex lg:w-[45%] flex-col justify-center px-16 py-20">
+          <Image src="/login-hero.png" alt="" fill className="object-cover" priority />
+          <div className="absolute inset-0 bg-navy/60" />
+          <div className="relative z-10">
+            <h2 className="mb-4 font-heading text-[2rem] font-extrabold leading-tight text-cream">
+              Your dog&apos;s information,<br />always at hand.
+            </h2>
+            <p className="mb-10 font-sub text-[1rem] italic text-cream/60">
+              One profile. Every caregiver covered.
+            </p>
+            <ul className="flex flex-col gap-5">
+              {[
+                "Shareable links and QR codes for walkers, vets, and sitters",
+                "Emergency contacts and medical info in one place",
+                "Update once — everyone sees the latest",
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="mt-[6px] h-2 w-2 flex-shrink-0 rounded-full bg-orange" />
+                  <span className="text-[0.95rem] leading-relaxed text-cream/70">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         {/* Right form panel */}
