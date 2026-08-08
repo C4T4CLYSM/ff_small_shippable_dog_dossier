@@ -92,7 +92,7 @@ export default function LoginPage() {
         </div>
 
         {/* Right form panel */}
-        <div className="flex flex-1 items-center justify-center bg-cream px-6 py-12 lg:rounded-l-[2.5rem]">
+        <div className="flex flex-1 items-center justify-center bg-cream px-6 py-12">
           <div className="w-full max-w-[420px]">
 
             {forgotMode ? (

@@ -73,7 +73,7 @@ export default function SignupPage() {
         </div>
 
         {/* Left form panel — cream with rounded right corners on desktop */}
-        <div className="flex flex-1 items-center justify-center bg-cream px-6 py-12 lg:rounded-r-[2.5rem]">
+        <div className="flex flex-1 items-center justify-center bg-cream px-6 py-12">
           <div className="w-full max-w-[420px]">
             <div className="rounded-2xl bg-navy p-10 shadow-[0_20px_60px_rgba(30,41,59,0.18)]">
               <h1 className="mb-2 font-heading text-[1.6rem] font-extrabold text-cream">Create your account</h1>
@@ -133,7 +133,7 @@ export default function SignupPage() {
 
         {/* Right brand panel — desktop only */}
         <div className="relative hidden overflow-hidden lg:flex lg:w-[45%] flex-col justify-center px-16 py-20">
-          <Image src="/signup-hero.png" alt="" fill className="object-cover" priority />
+          <Image src="/signup_hero.png" alt="" fill className="object-cover" priority />
           <div className="absolute inset-0 bg-navy/60" />
           <div className="relative z-10">
             <h2 className="mb-4 font-heading text-[2rem] font-extrabold leading-tight text-cream">
