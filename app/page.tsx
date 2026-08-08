@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Script from "next/script";
+import WaitlistForm from "./components/WaitlistForm";
 
 const pricingRows = [
   { feature: "Access Cost", founder: "$29 (One-time)", launch: "$59 (One-time)" },
@@ -272,15 +272,7 @@ export default function Home() {
             Join the waitlist to get access when we launch publicly.
           </p>
           <div className="mx-auto max-w-[560px]">
-            <iframe
-              data-tally-src="https://tally.so/embed/XxzabP?hideTitle=1&transparentBackground=1&dynamicHeight=1"
-              loading="lazy"
-              width="100%"
-              height={184}
-              title="Dog Dossier Waitlist"
-              className="border-0"
-            />
-            <Script src="https://tally.so/widgets/embed.js" strategy="afterInteractive" />
+            <WaitlistForm />
           </div>
           <p className="mt-4 text-[0.85rem] text-slate">
             No spam. Just your link when we&apos;re ready. Unsubscribe anytime.
