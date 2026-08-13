@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 
-const STEPS = ["Basics", "Safety", "Routine", "Behavior"];
+const STEPS = ["Basics", "Safety", "Routine", "Behavior", "Notes"];
 
 export default function EditDogPage() {
   const { id } = useParams<{ id: string }>();
@@ -226,6 +226,9 @@ export default function EditDogPage() {
 
       <main className="mx-auto max-w-[620px] px-6 py-12">
         {/* Section tabs */}
+        <p className="mb-3 text-center font-sub text-[0.8rem] italic text-navy/40">
+          Click any tab to jump to that section
+        </p>
         <div className="mb-8 flex rounded-xl bg-navy/10 p-1">
           {STEPS.map((label, i) => (
             <button
@@ -446,9 +449,17 @@ export default function EditDogPage() {
                 <input value={behavior.leash_behavior} onChange={e => setBehavior(p => ({ ...p, leash_behavior: e.target.value }))}
                   placeholder="e.g. Pulls on leash, reactive to other dogs" className={inputClass} />
               </Field>
-              <Field label="Additional Notes">
+            </div>
+          )}
+
+          {/* Step 5: Notes */}
+          {step === 4 && (
+            <div className="flex flex-col gap-5">
+              <h2 className="font-heading text-[1.4rem] font-extrabold text-cream">Additional Notes</h2>
+              <Field label="Anything else a caretaker should know">
                 <textarea value={behavior.additional_notes} onChange={e => setBehavior(p => ({ ...p, additional_notes: e.target.value }))}
-                  placeholder="Anything else a caretaker should know..." rows={3} className={inputClass} />
+                  placeholder="Special quirks, favorite toys, how they greet strangers, separation anxiety, anything that helps someone care for them..."
+                  rows={6} className={inputClass} />
               </Field>
             </div>
           )}
