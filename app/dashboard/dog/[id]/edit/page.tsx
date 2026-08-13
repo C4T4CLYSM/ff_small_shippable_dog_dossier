@@ -225,21 +225,20 @@ export default function EditDogPage() {
       </header>
 
       <main className="mx-auto max-w-[620px] px-6 py-12">
-        {/* Step indicator */}
-        <div className="mb-10 flex items-center gap-2">
+        {/* Section tabs */}
+        <div className="mb-8 flex rounded-xl bg-navy/10 p-1">
           {STEPS.map((label, i) => (
-            <div key={label} className="flex items-center gap-2">
-              <button onClick={() => setStep(i)}
-                className={`flex h-8 w-8 items-center justify-center rounded-full font-heading text-[0.85rem] font-bold transition ${
-                  i === step ? "bg-orange text-cream" : "bg-navy text-cream/60 hover:text-cream"
-                }`}>
-                {i + 1}
-              </button>
-              <span className={`hidden font-heading text-[0.85rem] font-bold sm:block ${
-                i === step ? "text-navy" : "text-navy/30"
-              }`}>{label}</span>
-              {i < STEPS.length - 1 && <div className="h-px w-6 bg-navy/20" />}
-            </div>
+            <button
+              key={label}
+              onClick={() => setStep(i)}
+              className={`flex-1 rounded-lg py-2.5 font-heading text-[0.8rem] font-bold transition ${
+                i === step
+                  ? "bg-navy text-cream shadow-sm"
+                  : "text-navy/40 hover:text-navy"
+              }`}
+            >
+              {label}
+            </button>
           ))}
         </div>
 
