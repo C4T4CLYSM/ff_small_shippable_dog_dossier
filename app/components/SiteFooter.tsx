@@ -22,8 +22,7 @@ export default function SiteFooter() {
             <a href="/" className="font-heading text-[0.85rem] text-cream/50 transition hover:text-cream">Home</a>
             <a href="/privacy" className="font-heading text-[0.85rem] text-cream/50 transition hover:text-cream">Privacy Policy</a>
             <a href="/terms" className="font-heading text-[0.85rem] text-cream/50 transition hover:text-cream">Terms of Use</a>
-            <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
-              className="font-heading text-[0.85rem] text-cream/50 transition hover:text-cream">Contact</a>
+            <a href="/contact" className="font-heading text-[0.85rem] text-cream/50 transition hover:text-cream">Contact</a>
           </nav>
         </div>
         <div className="flex flex-wrap items-center justify-between gap-3 pt-6">
