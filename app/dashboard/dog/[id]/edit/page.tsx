@@ -7,6 +7,9 @@ import { supabase } from "@/lib/supabaseClient";
 
 const STEPS = ["Basics", "Safety", "Routine", "Behavior", "Notes"];
 
+type Medication = { name: string; dose: string; frequency: string; schedule: string; how_to_administer: string };
+type Feeding = { time: string; amount: string; food_brand: string };
+
 export default function EditDogPage() {
   const { id } = useParams<{ id: string }>();
   const [step, setStep] = useState(0);
@@ -15,6 +18,7 @@ export default function EditDogPage() {
   const [error, setError] = useState<string | null>(null);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [weightUnit, setWeightUnit] = useState<"lbs" | "kg">("lbs");
 
   const [basics, setBasics] = useState({
     name: "", breed: "", date_of_birth: "", weight_lbs: "",
@@ -24,22 +28,35 @@ export default function EditDogPage() {
 
   const [safety, setSafety] = useState({
     emergency_contact_name: "", emergency_contact_phone: "",
+    emergency_contact_2_name: "", emergency_contact_2_phone: "",
     vet_name: "", vet_phone: "", vet_address: "",
     microchip_number: "", medical_conditions: "", allergies: "",
-    medications: [] as { name: string; dose: string; frequency: string }[],
+    medications: [] as Medication[],
+    vet_behavior: "",
   });
 
   const [routine, setRoutine] = useState({
     walk_schedule: "", potty_schedule: "", crate_trained: false,
     sleep_location: "", exercise_level: "" as "low" | "medium" | "high" | "",
-    feeding_schedule: [{ time: "", amount: "", food_brand: "" }] as { time: string; amount: string; food_brand: string }[],
+    feeding_schedule: [{ time: "", amount: "", food_brand: "" }] as Feeding[],
+    go_zones: "", no_go_zones: "",
+    transport_instructions: "",
+    eating_spot: "",
+    potty_areas: "",
+    alone_arrangement: "",
+    walking_equipment: "",
   });
 
   const [behavior, setBehavior] = useState({
     good_with_kids: "" as "yes" | "no" | "caution" | "",
     good_with_dogs: "" as "yes" | "no" | "caution" | "",
     good_with_cats: "" as "yes" | "no" | "caution" | "",
-    known_fears: "", known_commands: "", leash_behavior: "", additional_notes: "",
+    known_fears: "", known_commands: "", leash_behavior: "",
+    additional_notes: "",
+    undesirable_behaviors: "",
+    resource_guarding: "",
+    likes: "",
+    dislikes: "",
   });
 
   useEffect(() => {
@@ -76,13 +93,19 @@ export default function EditDogPage() {
         setSafety({
           emergency_contact_name: s.emergency_contact_name ?? "",
           emergency_contact_phone: s.emergency_contact_phone ?? "",
+          emergency_contact_2_name: s.emergency_contact_2_name ?? "",
+          emergency_contact_2_phone: s.emergency_contact_2_phone ?? "",
           vet_name: s.vet_name ?? "",
           vet_phone: s.vet_phone ?? "",
           vet_address: s.vet_address ?? "",
           microchip_number: s.microchip_number ?? "",
           medical_conditions: s.medical_conditions ?? "",
           allergies: s.allergies ?? "",
-          medications: s.medications ?? [],
+          medications: (s.medications ?? []).map((m: Medication) => ({
+            name: m.name ?? "", dose: m.dose ?? "", frequency: m.frequency ?? "",
+            schedule: m.schedule ?? "", how_to_administer: m.how_to_administer ?? "",
+          })),
+          vet_behavior: s.vet_behavior ?? "",
         });
       }
 
@@ -95,6 +118,13 @@ export default function EditDogPage() {
           sleep_location: r.sleep_location ?? "",
           exercise_level: r.exercise_level ?? "",
           feeding_schedule: r.feeding_schedule?.length ? r.feeding_schedule : [{ time: "", amount: "", food_brand: "" }],
+          go_zones: r.go_zones ?? "",
+          no_go_zones: r.no_go_zones ?? "",
+          transport_instructions: r.transport_instructions ?? "",
+          eating_spot: r.eating_spot ?? "",
+          potty_areas: r.potty_areas ?? "",
+          alone_arrangement: r.alone_arrangement ?? "",
+          walking_equipment: r.walking_equipment ?? "",
         });
       }
 
@@ -108,6 +138,10 @@ export default function EditDogPage() {
           known_commands: b.known_commands ?? "",
           leash_behavior: b.leash_behavior ?? "",
           additional_notes: b.additional_notes ?? "",
+          undesirable_behaviors: b.undesirable_behaviors ?? "",
+          resource_guarding: b.resource_guarding ?? "",
+          likes: b.likes ?? "",
+          dislikes: b.dislikes ?? "",
         });
       }
 
@@ -131,7 +165,6 @@ export default function EditDogPage() {
 
     let photo_url = basics.photo_url;
 
-    // Upload new photo if selected
     if (photoFile) {
       const ext = photoFile.name.split(".").pop();
       const path = `${id}/photo.${ext}`;
@@ -149,12 +182,18 @@ export default function EditDogPage() {
       photo_url = urlData.publicUrl;
     }
 
+    const weightInLbs = basics.weight_lbs
+      ? weightUnit === "kg"
+        ? parseFloat(basics.weight_lbs) * 2.20462
+        : parseFloat(basics.weight_lbs)
+      : null;
+
     await Promise.all([
       supabase.from("dogs").update({
         name: basics.name,
         breed: basics.breed || null,
         date_of_birth: basics.date_of_birth || null,
-        weight_lbs: basics.weight_lbs ? parseFloat(basics.weight_lbs) : null,
+        weight_lbs: weightInLbs,
         sex: basics.sex || null,
         spayed_neutered: basics.spayed_neutered,
         coat_color: basics.coat_color || null,
@@ -166,6 +205,8 @@ export default function EditDogPage() {
         dog_id: id,
         emergency_contact_name: safety.emergency_contact_name || null,
         emergency_contact_phone: safety.emergency_contact_phone || null,
+        emergency_contact_2_name: safety.emergency_contact_2_name || null,
+        emergency_contact_2_phone: safety.emergency_contact_2_phone || null,
         vet_name: safety.vet_name || null,
         vet_phone: safety.vet_phone || null,
         vet_address: safety.vet_address || null,
@@ -173,6 +214,7 @@ export default function EditDogPage() {
         medical_conditions: safety.medical_conditions || null,
         allergies: safety.allergies || null,
         medications: safety.medications,
+        vet_behavior: safety.vet_behavior || null,
         updated_at: new Date().toISOString(),
       }, { onConflict: "dog_id" }),
 
@@ -184,6 +226,13 @@ export default function EditDogPage() {
         crate_trained: routine.crate_trained,
         sleep_location: routine.sleep_location || null,
         exercise_level: routine.exercise_level || null,
+        go_zones: routine.go_zones || null,
+        no_go_zones: routine.no_go_zones || null,
+        transport_instructions: routine.transport_instructions || null,
+        eating_spot: routine.eating_spot || null,
+        potty_areas: routine.potty_areas || null,
+        alone_arrangement: routine.alone_arrangement || null,
+        walking_equipment: routine.walking_equipment || null,
         updated_at: new Date().toISOString(),
       }, { onConflict: "dog_id" }),
 
@@ -196,12 +245,22 @@ export default function EditDogPage() {
         known_commands: behavior.known_commands || null,
         leash_behavior: behavior.leash_behavior || null,
         additional_notes: behavior.additional_notes || null,
+        undesirable_behaviors: behavior.undesirable_behaviors || null,
+        resource_guarding: behavior.resource_guarding || null,
+        likes: behavior.likes || null,
+        dislikes: behavior.dislikes || null,
         updated_at: new Date().toISOString(),
       }, { onConflict: "dog_id" }),
     ]);
 
     window.location.href = `/dashboard/dog/${id}`;
   }
+
+  const weightDisplay = basics.weight_lbs
+    ? weightUnit === "kg"
+      ? (parseFloat(basics.weight_lbs) / 2.20462).toFixed(1)
+      : basics.weight_lbs
+    : "";
 
   if (loading) {
     return (
@@ -225,33 +284,26 @@ export default function EditDogPage() {
       </header>
 
       <main className="mx-auto max-w-[620px] px-6 py-12">
-        {/* Section tabs */}
         <p className="mb-3 text-center font-sub text-[0.8rem] italic text-navy/40">
           Click any tab to jump to that section
         </p>
         <div className="mb-8 flex rounded-xl bg-navy/10 p-1">
           {STEPS.map((label, i) => (
-            <button
-              key={label}
-              onClick={() => setStep(i)}
+            <button key={label} onClick={() => setStep(i)}
               className={`flex-1 rounded-lg py-2.5 font-heading text-[0.8rem] font-bold transition ${
-                i === step
-                  ? "bg-navy text-cream shadow-sm"
-                  : "text-navy/40 hover:text-navy"
-              }`}
-            >
+                i === step ? "bg-navy text-cream shadow-sm" : "text-navy/40 hover:text-navy"
+              }`}>
               {label}
             </button>
           ))}
         </div>
 
         <div className="rounded-2xl bg-navy p-8 shadow-[0_12px_40px_rgba(30,41,59,0.12)]">
-          {/* Step 1: Basics */}
+
+          {/* Basics */}
           {step === 0 && (
             <div className="flex flex-col gap-5">
               <h2 className="font-heading text-[1.4rem] font-extrabold text-cream">Basic Info</h2>
-
-              {/* Photo upload */}
               <Field label="Dog Photo">
                 <div className="flex items-center gap-4">
                   {(photoPreview || basics.photo_url) && (
@@ -265,7 +317,6 @@ export default function EditDogPage() {
                   </label>
                 </div>
               </Field>
-
               <Field label="Dog's Name *">
                 <input required value={basics.name} onChange={e => setBasics(p => ({ ...p, name: e.target.value }))}
                   placeholder="e.g. Luna" className={inputClass} />
@@ -279,9 +330,27 @@ export default function EditDogPage() {
                   <input type="date" value={basics.date_of_birth} onChange={e => setBasics(p => ({ ...p, date_of_birth: e.target.value }))}
                     className={inputClass} />
                 </Field>
-                <Field label="Weight (lbs)">
-                  <input type="number" value={basics.weight_lbs} onChange={e => setBasics(p => ({ ...p, weight_lbs: e.target.value }))}
-                    placeholder="e.g. 55" className={inputClass} />
+                <Field label={`Weight (${weightUnit})`}>
+                  <div className="flex gap-2">
+                    <input type="number"
+                      value={weightDisplay}
+                      onChange={e => {
+                        const val = e.target.value;
+                        setBasics(p => ({ ...p, weight_lbs: val ? (weightUnit === "kg" ? String(parseFloat(val) * 2.20462) : val) : "" }));
+                      }}
+                      placeholder={weightUnit === "lbs" ? "e.g. 55" : "e.g. 25"}
+                      className={`${inputClass} flex-1`} />
+                    <div className="flex overflow-hidden rounded-xl ring-1 ring-cream/10">
+                      {(["lbs", "kg"] as const).map(u => (
+                        <button key={u} type="button" onClick={() => setWeightUnit(u)}
+                          className={`px-3 py-2 font-heading text-[0.8rem] font-bold transition ${
+                            weightUnit === u ? "bg-orange text-cream" : "bg-slate/40 text-cream/60 hover:bg-slate/60"
+                          }`}>
+                          {u}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </Field>
               </div>
               <Field label="Sex">
@@ -308,17 +377,29 @@ export default function EditDogPage() {
             </div>
           )}
 
-          {/* Step 2: Safety */}
+          {/* Safety */}
           {step === 1 && (
             <div className="flex flex-col gap-5">
               <h2 className="font-heading text-[1.4rem] font-extrabold text-cream">Safety Info</h2>
+              <p className="font-heading text-[0.8rem] font-bold uppercase tracking-wide text-cream/40">Emergency Contact 1</p>
               <div className="grid grid-cols-2 gap-4">
-                <Field label="Emergency Contact Name">
+                <Field label="Name">
                   <input value={safety.emergency_contact_name} onChange={e => setSafety(p => ({ ...p, emergency_contact_name: e.target.value }))}
                     placeholder="Full name" className={inputClass} />
                 </Field>
-                <Field label="Emergency Contact Phone">
+                <Field label="Phone">
                   <input value={safety.emergency_contact_phone} onChange={e => setSafety(p => ({ ...p, emergency_contact_phone: e.target.value }))}
+                    placeholder="+1 (555) 000-0000" className={inputClass} />
+                </Field>
+              </div>
+              <p className="font-heading text-[0.8rem] font-bold uppercase tracking-wide text-cream/40">Emergency Contact 2</p>
+              <div className="grid grid-cols-2 gap-4">
+                <Field label="Name">
+                  <input value={safety.emergency_contact_2_name} onChange={e => setSafety(p => ({ ...p, emergency_contact_2_name: e.target.value }))}
+                    placeholder="Full name" className={inputClass} />
+                </Field>
+                <Field label="Phone">
+                  <input value={safety.emergency_contact_2_phone} onChange={e => setSafety(p => ({ ...p, emergency_contact_2_phone: e.target.value }))}
                     placeholder="+1 (555) 000-0000" className={inputClass} />
                 </Field>
               </div>
@@ -340,6 +421,10 @@ export default function EditDogPage() {
                 <input value={safety.vet_address} onChange={e => setSafety(p => ({ ...p, vet_address: e.target.value }))}
                   placeholder="Street, City, State" className={inputClass} />
               </Field>
+              <Field label="Vet Behavior">
+                <textarea value={safety.vet_behavior} onChange={e => setSafety(p => ({ ...p, vet_behavior: e.target.value }))}
+                  placeholder="e.g. Anxious at the vet, needs muzzle for nail trims, responds well to treats..." rows={2} className={inputClass} />
+              </Field>
               <Field label="Medical Conditions">
                 <textarea value={safety.medical_conditions} onChange={e => setSafety(p => ({ ...p, medical_conditions: e.target.value }))}
                   placeholder="e.g. Hip dysplasia, epilepsy..." rows={2} className={inputClass} />
@@ -350,16 +435,26 @@ export default function EditDogPage() {
               </Field>
               <Field label="Medications">
                 {safety.medications.map((med, i) => (
-                  <div key={i} className="mb-3 grid grid-cols-3 gap-2">
-                    <input value={med.name} onChange={e => setSafety(p => ({ ...p, medications: p.medications.map((m, j) => j === i ? { ...m, name: e.target.value } : m) }))}
-                      placeholder="Name" className={inputClass} />
-                    <input value={med.dose} onChange={e => setSafety(p => ({ ...p, medications: p.medications.map((m, j) => j === i ? { ...m, dose: e.target.value } : m) }))}
-                      placeholder="Dose" className={inputClass} />
+                  <div key={i} className="mb-4 flex flex-col gap-2 rounded-xl bg-slate/20 p-3">
+                    <div className="grid grid-cols-2 gap-2">
+                      <input value={med.name} onChange={e => setSafety(p => ({ ...p, medications: p.medications.map((m, j) => j === i ? { ...m, name: e.target.value } : m) }))}
+                        placeholder="Medication name" className={inputClass} />
+                      <input value={med.dose} onChange={e => setSafety(p => ({ ...p, medications: p.medications.map((m, j) => j === i ? { ...m, dose: e.target.value } : m) }))}
+                        placeholder="Dose (e.g. 50mg)" className={inputClass} />
+                    </div>
                     <input value={med.frequency} onChange={e => setSafety(p => ({ ...p, medications: p.medications.map((m, j) => j === i ? { ...m, frequency: e.target.value } : m) }))}
-                      placeholder="Frequency" className={inputClass} />
+                      placeholder="Frequency (e.g. Twice daily)" className={inputClass} />
+                    <input value={med.schedule} onChange={e => setSafety(p => ({ ...p, medications: p.medications.map((m, j) => j === i ? { ...m, schedule: e.target.value } : m) }))}
+                      placeholder="Schedule (e.g. 8am and 8pm with food)" className={inputClass} />
+                    <input value={med.how_to_administer} onChange={e => setSafety(p => ({ ...p, medications: p.medications.map((m, j) => j === i ? { ...m, how_to_administer: e.target.value } : m) }))}
+                      placeholder="How to give (e.g. Hidden in pill pocket, crushed in food)" className={inputClass} />
+                    <button type="button" onClick={() => setSafety(p => ({ ...p, medications: p.medications.filter((_, j) => j !== i) }))}
+                      className="self-end font-heading text-[0.8rem] text-red-400 hover:underline">
+                      Remove
+                    </button>
                   </div>
                 ))}
-                <button type="button" onClick={() => setSafety(p => ({ ...p, medications: [...p.medications, { name: "", dose: "", frequency: "" }] }))}
+                <button type="button" onClick={() => setSafety(p => ({ ...p, medications: [...p.medications, { name: "", dose: "", frequency: "", schedule: "", how_to_administer: "" }] }))}
                   className="mt-1 font-heading text-[0.85rem] text-orange hover:underline">
                   + Add medication
                 </button>
@@ -367,7 +462,7 @@ export default function EditDogPage() {
             </div>
           )}
 
-          {/* Step 3: Routine */}
+          {/* Routine */}
           {step === 2 && (
             <div className="flex flex-col gap-5">
               <h2 className="font-heading text-[1.4rem] font-extrabold text-cream">Daily Routine</h2>
@@ -387,17 +482,45 @@ export default function EditDogPage() {
                   + Add feeding
                 </button>
               </Field>
-              <Field label="Walk Schedule">
-                <input value={routine.walk_schedule} onChange={e => setRoutine(p => ({ ...p, walk_schedule: e.target.value }))}
-                  placeholder="e.g. 7am, 12pm, 6pm — 30 min each" className={inputClass} />
+              <Field label="Eating Spot">
+                <input value={routine.eating_spot} onChange={e => setRoutine(p => ({ ...p, eating_spot: e.target.value }))}
+                  placeholder="e.g. Kitchen only, fed separately from other dogs" className={inputClass} />
+              </Field>
+              <Field label="Potty Areas">
+                <input value={routine.potty_areas} onChange={e => setRoutine(p => ({ ...p, potty_areas: e.target.value }))}
+                  placeholder="e.g. Back garden only, not on the front lawn" className={inputClass} />
               </Field>
               <Field label="Potty Schedule">
                 <input value={routine.potty_schedule} onChange={e => setRoutine(p => ({ ...p, potty_schedule: e.target.value }))}
                   placeholder="e.g. Every 4 hours" className={inputClass} />
               </Field>
+              <Field label="Walk Schedule">
+                <input value={routine.walk_schedule} onChange={e => setRoutine(p => ({ ...p, walk_schedule: e.target.value }))}
+                  placeholder="e.g. 7am, 12pm, 6pm — 30 min each" className={inputClass} />
+              </Field>
+              <Field label="Walking Equipment">
+                <input value={routine.walking_equipment} onChange={e => setRoutine(p => ({ ...p, walking_equipment: e.target.value }))}
+                  placeholder="e.g. Front-clip harness and 6ft leash, not a collar" className={inputClass} />
+              </Field>
               <Field label="Sleep Location">
                 <input value={routine.sleep_location} onChange={e => setRoutine(p => ({ ...p, sleep_location: e.target.value }))}
                   placeholder="e.g. Dog bed in bedroom" className={inputClass} />
+              </Field>
+              <Field label="Go Zones (allowed areas)">
+                <input value={routine.go_zones} onChange={e => setRoutine(p => ({ ...p, go_zones: e.target.value }))}
+                  placeholder="e.g. Living room, garden, bedroom" className={inputClass} />
+              </Field>
+              <Field label="No-Go Zones (off limits)">
+                <input value={routine.no_go_zones} onChange={e => setRoutine(p => ({ ...p, no_go_zones: e.target.value }))}
+                  placeholder="e.g. Kitchen, beds, upstairs" className={inputClass} />
+              </Field>
+              <Field label="When Left Alone">
+                <input value={routine.alone_arrangement} onChange={e => setRoutine(p => ({ ...p, alone_arrangement: e.target.value }))}
+                  placeholder="e.g. Crated, or loose in living room with baby gate" className={inputClass} />
+              </Field>
+              <Field label="Transport Instructions">
+                <textarea value={routine.transport_instructions} onChange={e => setRoutine(p => ({ ...p, transport_instructions: e.target.value }))}
+                  placeholder="e.g. Must travel in crate, or back seat with seatbelt harness only" rows={2} className={inputClass} />
               </Field>
               <Field label="Exercise Level">
                 <div className="flex gap-3">
@@ -414,12 +537,12 @@ export default function EditDogPage() {
               <label className="flex cursor-pointer items-center gap-3">
                 <input type="checkbox" checked={routine.crate_trained} onChange={e => setRoutine(p => ({ ...p, crate_trained: e.target.checked }))}
                   className="h-4 w-4 accent-orange" />
-                <span className="font-heading text-[0.9rem] text-cream/70">Crate trained</span>
+                <span className="font-heading text-[0.9rem] text-cream/70">Crate trained — will settle in the crate</span>
               </label>
             </div>
           )}
 
-          {/* Step 4: Behavior */}
+          {/* Behavior */}
           {step === 3 && (
             <div className="flex flex-col gap-5">
               <h2 className="font-heading text-[1.4rem] font-extrabold text-cream">Behavior</h2>
@@ -437,9 +560,25 @@ export default function EditDogPage() {
                   </div>
                 </Field>
               ))}
+              <Field label="Likes">
+                <textarea value={behavior.likes} onChange={e => setBehavior(p => ({ ...p, likes: e.target.value }))}
+                  placeholder="e.g. Belly rubs, fetch, squeaky toys, being near people..." rows={2} className={inputClass} />
+              </Field>
+              <Field label="Dislikes">
+                <textarea value={behavior.dislikes} onChange={e => setBehavior(p => ({ ...p, dislikes: e.target.value }))}
+                  placeholder="e.g. Loud noises, being alone, other dogs in face..." rows={2} className={inputClass} />
+              </Field>
               <Field label="Known Fears / Triggers">
                 <textarea value={behavior.known_fears} onChange={e => setBehavior(p => ({ ...p, known_fears: e.target.value }))}
                   placeholder="e.g. Thunderstorms, strangers, loud noises..." rows={2} className={inputClass} />
+              </Field>
+              <Field label="Undesirable Behaviors">
+                <textarea value={behavior.undesirable_behaviors} onChange={e => setBehavior(p => ({ ...p, undesirable_behaviors: e.target.value }))}
+                  placeholder="e.g. Steals tissues, chews shoes, counter surfs..." rows={2} className={inputClass} />
+              </Field>
+              <Field label="Resource Guarding">
+                <textarea value={behavior.resource_guarding} onChange={e => setBehavior(p => ({ ...p, resource_guarding: e.target.value }))}
+                  placeholder="e.g. Guards food bowl — do not approach while eating. No toy guarding." rows={2} className={inputClass} />
               </Field>
               <Field label="Commands They Know">
                 <input value={behavior.known_commands} onChange={e => setBehavior(p => ({ ...p, known_commands: e.target.value }))}
@@ -452,7 +591,7 @@ export default function EditDogPage() {
             </div>
           )}
 
-          {/* Step 5: Notes */}
+          {/* Notes */}
           {step === 4 && (
             <div className="flex flex-col gap-5">
               <h2 className="font-heading text-[1.4rem] font-extrabold text-cream">Additional Notes</h2>
@@ -468,7 +607,6 @@ export default function EditDogPage() {
             <p className="mt-4 rounded-xl bg-red-500/10 px-4 py-3 text-[0.9rem] text-red-400">{error}</p>
           )}
 
-          {/* Navigation */}
           <div className="mt-8 flex justify-between">
             {step > 0 ? (
               <button onClick={() => setStep(s => s - 1)}
@@ -476,7 +614,6 @@ export default function EditDogPage() {
                 ← Back
               </button>
             ) : <div />}
-
             {step < STEPS.length - 1 ? (
               <button onClick={() => { setError(null); setStep(s => s + 1); }}
                 className="rounded-xl bg-orange px-6 py-3 font-heading text-[0.9rem] font-bold text-cream transition hover:bg-orange-dark">
@@ -504,4 +641,4 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-const inputClass = "w-full rounded-xl bg-slate/40 px-4 py-3 text-[0.95rem] text-cream placeholder-cream/30 outline-none ring-1 ring-cream/10 transition focus:ring-orange resize-none";
+const inputClass = "w-full rounded-xl bg-slate/50 px-4 py-3 text-[0.95rem] text-cream placeholder-cream/30 outline-none ring-1 ring-cream/10 transition focus:ring-orange";
