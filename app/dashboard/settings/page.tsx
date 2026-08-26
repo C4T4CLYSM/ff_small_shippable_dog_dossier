@@ -54,7 +54,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-cream">
+    <div className="flex min-h-screen flex-col bg-cream">
       <header className="sticky top-0 z-50 bg-navy py-[18px]">
         <div className="flex items-center justify-between px-6 lg:px-10">
           <a href="/dashboard">
@@ -66,7 +66,7 @@ export default function SettingsPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-[640px] px-6 py-12">
+      <main className="mx-auto w-full max-w-[640px] flex-1 px-6 py-12">
         <h1 className="mb-8 font-heading text-[2rem] font-extrabold text-navy">Account Settings</h1>
 
         {/* Account info */}
