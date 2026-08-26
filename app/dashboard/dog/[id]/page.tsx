@@ -323,6 +323,15 @@ export default function DogProfilePage() {
           )}
         </div>
       </main>
+      <footer className="mt-12 border-t border-navy/10 px-6 py-6 lg:px-10">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <span className="text-[0.82rem] text-navy/40">© 2026 Dog Dossier. All rights reserved.</span>
+          <div className="flex gap-4">
+            <a href="/privacy" className="text-[0.82rem] text-navy/40 transition hover:text-navy">Privacy</a>
+            <a href="/terms" className="text-[0.82rem] text-navy/40 transition hover:text-navy">Terms</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
