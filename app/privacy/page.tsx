@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { Metadata } from "next";
+import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — Dog Dossier",
@@ -7,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-cream">
+    <div className="flex min-h-screen flex-col bg-cream">
       <header className="bg-navy py-[18px]">
         <div className="flex items-center justify-between px-6 lg:px-10">
           <a href="/">
@@ -85,9 +86,7 @@ export default function PrivacyPage() {
         </Section>
       </main>
 
-      <footer className="bg-navy px-6 py-7 text-center">
-        <span className="text-[0.82rem] text-cream/40">© 2026 Dog Dossier. All rights reserved.</span>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
