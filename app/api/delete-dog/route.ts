@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
 
   const { data: dog } = await supabaseAdmin
     .from("dogs")
-    .select("id, user_id, photo_url")
+    .select("id, user_id")
     .eq("id", dogId)
     .single();
 
@@ -30,11 +30,11 @@ export async function POST(req: NextRequest) {
     return Response.json({ error: "Not found" }, { status: 404 });
   }
 
-  if (dog.photo_url) {
-    const match = (dog.photo_url as string).match(/\/dog-photos\/(.+?)(\?|$)/);
-    if (match) {
-      await supabaseAdmin.storage.from("dog-photos").remove([match[1]]);
-    }
+  // Photos live in a folder named after the dog's id. Don't trust photo_url,
+  // which the owner can edit to point at someone else's file.
+  const { data: files } = await supabaseAdmin.storage.from("dog-photos").list(dog.id);
+  if (files && files.length > 0) {
+    await supabaseAdmin.storage.from("dog-photos").remove(files.map(f => `${dog.id}/${f.name}`));
   }
 
   await supabaseAdmin.from("dogs").delete().eq("id", dogId);

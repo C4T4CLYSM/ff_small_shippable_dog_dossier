@@ -22,20 +22,15 @@ export async function POST(req: NextRequest) {
 
   const { data: dogs } = await supabaseAdmin
     .from("dogs")
-    .select("id, photo_url")
+    .select("id")
     .eq("user_id", userId);
 
-  if (dogs && dogs.length > 0) {
-    const photoPaths = dogs
-      .filter(d => d.photo_url)
-      .map(d => {
-        const match = (d.photo_url as string).match(/\/dog-photos\/(.+?)(\?|$)/);
-        return match ? match[1] : null;
-      })
-      .filter(Boolean) as string[];
-
-    if (photoPaths.length > 0) {
-      await supabaseAdmin.storage.from("dog-photos").remove(photoPaths);
+  // Photos live in a folder named after each dog's id. Don't trust photo_url,
+  // which the owner can edit to point at someone else's file.
+  for (const dog of dogs ?? []) {
+    const { data: files } = await supabaseAdmin.storage.from("dog-photos").list(dog.id);
+    if (files && files.length > 0) {
+      await supabaseAdmin.storage.from("dog-photos").remove(files.map(f => `${dog.id}/${f.name}`));
     }
   }
 

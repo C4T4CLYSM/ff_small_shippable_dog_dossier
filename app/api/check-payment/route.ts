@@ -8,14 +8,17 @@ const supabase = createClient(
 export async function POST(req: Request) {
   const { email } = await req.json();
 
-  if (!email) {
+  if (!email || typeof email !== "string") {
     return Response.json({ paid: false });
   }
+
+  // ilike treats % and _ as wildcards, so escape them for an exact match
+  const pattern = email.trim().replace(/[\\%_]/g, "\\$&");
 
   const { data } = await supabase
     .from("paid_emails")
     .select("email")
-    .ilike("email", email.trim())
+    .ilike("email", pattern)
     .single();
 
   return Response.json({ paid: !!data });
