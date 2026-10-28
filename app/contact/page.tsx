@@ -7,7 +7,7 @@ import SiteFooter from "@/app/components/SiteFooter";
 type Status = "idle" | "loading" | "success" | "error";
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "", website: "" });
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -64,12 +64,24 @@ export default function ContactPage() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            {/* Honeypot: hidden from people, bots fill it in */}
+            <input
+              type="text"
+              name="website"
+              value={form.website}
+              onChange={update("website")}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute left-[-9999px] h-0 w-0 opacity-0"
+            />
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div className="flex flex-col gap-1.5">
                 <label className="font-heading text-[0.8rem] font-bold uppercase tracking-wide text-navy/50">Name</label>
                 <input
                   type="text"
                   required
+                  maxLength={100}
                   value={form.name}
                   onChange={update("name")}
                   placeholder="Your name"
@@ -81,6 +93,7 @@ export default function ContactPage() {
                 <input
                   type="email"
                   required
+                  maxLength={254}
                   value={form.email}
                   onChange={update("email")}
                   placeholder="your@email.com"
@@ -94,6 +107,7 @@ export default function ContactPage() {
               <input
                 type="text"
                 required
+                maxLength={200}
                 value={form.subject}
                 onChange={update("subject")}
                 placeholder="What's this about?"
@@ -106,6 +120,7 @@ export default function ContactPage() {
               <textarea
                 required
                 rows={6}
+                maxLength={5000}
                 value={form.message}
                 onChange={update("message")}
                 placeholder="Your message..."

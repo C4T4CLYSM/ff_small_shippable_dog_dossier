@@ -10,7 +10,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ token: 
 
   const { data: link } = await supabase
     .from("dog_share_links")
-    .select("*")
+    .select("dog_id, label, show_basics, show_safety, show_routine, show_behavior")
     .eq("token", token)
     .single();
 
@@ -18,9 +18,14 @@ export async function GET(_req: Request, { params }: { params: Promise<{ token: 
     return Response.json({ error: "not found" }, { status: 404 });
   }
 
+  // Only send what the public page shows; never the owner's user_id
+  const dogColumns = link.show_basics
+    ? "name, breed, photo_url, sex, date_of_birth, weight_lbs, coat_color, spayed_neutered"
+    : "name, breed, photo_url";
+
   const { data: dog } = await supabase
     .from("dogs")
-    .select("*")
+    .select(dogColumns)
     .eq("id", link.dog_id)
     .single();
 
@@ -34,8 +39,10 @@ export async function GET(_req: Request, { params }: { params: Promise<{ token: 
     link.show_behavior ? supabase.from("dog_behavior").select("*").eq("dog_id", link.dog_id).single() : Promise.resolve(null),
   ]);
 
+  const { dog_id: _dogId, ...publicLink } = link;
+
   return Response.json({
-    link,
+    link: publicLink,
     dog,
     safety: safetyRes?.data ?? null,
     routine: routineRes?.data ?? null,

@@ -4,6 +4,7 @@ import { useState } from "react";
 
 export default function WaitlistForm() {
   const [email, setEmail] = useState("");
+  const [website, setWebsite] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error" | "duplicate">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -14,7 +15,7 @@ export default function WaitlistForm() {
     const res = await fetch("/api/waitlist", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, website }),
     });
 
     const data = await res.json();
@@ -42,10 +43,22 @@ export default function WaitlistForm() {
 
   return (
     <form onSubmit={handleSubmit}>
+      {/* Honeypot: hidden from people, bots fill it in */}
+      <input
+        type="text"
+        name="website"
+        value={website}
+        onChange={e => setWebsite(e.target.value)}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute left-[-9999px] h-0 w-0 opacity-0"
+      />
       <div className="flex flex-col gap-3 sm:flex-row">
         <input
           type="email"
           required
+          maxLength={254}
           value={email}
           onChange={e => setEmail(e.target.value)}
           placeholder="your@email.com"

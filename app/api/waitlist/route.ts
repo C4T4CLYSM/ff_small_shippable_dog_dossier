@@ -7,9 +7,14 @@ const supabaseAdmin = createClient(
 );
 
 export async function POST(req: NextRequest) {
-  const { email } = await req.json();
+  const { email, website } = await req.json();
 
-  if (!email || typeof email !== "string" || !email.includes("@")) {
+  // Honeypot: the hidden "website" field is only filled in by bots
+  if (website) {
+    return NextResponse.json({ success: true });
+  }
+
+  if (!email || typeof email !== "string" || !email.includes("@") || email.length > 254) {
     return NextResponse.json({ error: "A valid email is required." }, { status: 400 });
   }
 
