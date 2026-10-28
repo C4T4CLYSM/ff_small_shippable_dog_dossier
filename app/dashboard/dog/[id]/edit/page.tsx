@@ -180,7 +180,8 @@ export default function EditDogPage() {
       }
 
       const { data: urlData } = supabase.storage.from("dog-photos").getPublicUrl(path);
-      photo_url = urlData.publicUrl;
+      // Same path on every upload, so add a version to skip cached copies
+      photo_url = `${urlData.publicUrl}?v=${Date.now()}`;
     }
 
     const weightInLbs = basics.weight_lbs
