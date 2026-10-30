@@ -9,47 +9,55 @@ export default function PhotoGallery({
   photos,
   dogName,
   found = null,
+  header = null,
 }: {
   photos: string[];
   dogName: string;
   found?: Found | null;
+  header?: React.ReactNode;
 }) {
   const [current, setCurrent] = useState(0);
   const [open, setOpen] = useState(false);
+  // Width ÷ height of the main photo. The frame takes this shape, so it hugs the photo.
+  const [ratio, setRatio] = useState(3 / 4);
 
   if (photos.length === 0) {
     return (
-      <div className="flex h-[min(50vh,360px)] w-full items-center justify-center rounded-2xl bg-slate text-[4rem] shadow-[0_0_0_3px_#EA580C]">
-        🐾
+      <div className="mx-auto flex w-full max-w-[480px] flex-col gap-4">
+        {header}
+        <div className="flex aspect-[4/3] w-full items-center justify-center rounded-2xl bg-slate text-[4rem] shadow-[0_0_0_3px_#EA580C]">
+          🐾
+        </div>
       </div>
     );
   }
 
   const index = Math.min(current, photos.length - 1);
 
+  function measure(e: React.SyntheticEvent<HTMLImageElement>) {
+    const { naturalWidth: w, naturalHeight: h } = e.currentTarget;
+    if (index === 0 && w && h) setRatio(Math.min(2, Math.max(0.5, w / h)));
+  }
+
   return (
-    <div className="flex w-full flex-col gap-3">
+    // The column is as wide as the frame (capped by the page width and a maximum height),
+    // so the header lines up with the photo's edges
+    <div className="mx-auto flex flex-col gap-4" style={{ width: `min(100%, calc(min(75vh, 640px) * ${ratio}))` }}>
+      {header}
       <button
         type="button"
         onClick={() => setOpen(true)}
         aria-label={`Open photo ${index + 1} of ${photos.length} full screen`}
-        className="group relative h-[min(75vh,640px)] w-full cursor-zoom-in overflow-hidden rounded-2xl bg-navy shadow-[0_0_0_3px_#EA580C]"
+        style={{ aspectRatio: ratio }}
+        className="group relative w-full cursor-zoom-in overflow-hidden rounded-2xl bg-navy shadow-[0_0_0_3px_#EA580C]"
       >
-        {/* Blurred copy fills the space around photos of any shape; the photo itself is never cropped */}
-        <Image
-          src={photos[index]}
-          alt=""
-          aria-hidden
-          fill
-          sizes="(max-width: 768px) 100vw, 720px"
-          className="scale-110 object-cover opacity-50 blur-2xl"
-        />
         <Image
           src={photos[index]}
           alt={`${dogName}, photo ${index + 1}`}
           fill
           sizes="(max-width: 768px) 100vw, 720px"
           priority
+          onLoad={measure}
           className="object-contain transition duration-300 group-hover:scale-[1.02]"
         />
         {photos.length > 1 && (

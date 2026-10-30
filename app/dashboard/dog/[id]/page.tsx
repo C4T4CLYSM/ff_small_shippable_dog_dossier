@@ -142,24 +142,25 @@ export default function DogProfilePage() {
 
       <main className="mx-auto w-full max-w-[1100px] flex-1 px-6 py-12">
         {/* Dog header */}
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <h1 className="font-heading text-[2rem] font-extrabold text-navy">{dog.name}</h1>
-            {dog.breed && <p className="font-sub text-[1rem] italic text-slate">{dog.breed}</p>}
-          </div>
-          <a
-            href={`/dashboard/dog/${dog.id}/edit`}
-            className="rounded-[10px] bg-orange px-5 py-2.5 font-heading text-[0.9rem] font-bold text-cream transition hover:-translate-y-0.5 hover:bg-orange-dark"
-          >
-            Edit Profile
-          </a>
-        </div>
-
-        <div className="mx-auto mb-10 max-w-[720px]">
+        <div className="mb-10">
           <PhotoGallery
             photos={photos}
             dogName={dog.name}
             found={dog.show_found_bar && safety?.emergency_contact_phone ? { phone: safety.emergency_contact_phone } : null}
+            header={
+              <div className="flex flex-wrap items-end justify-between gap-3">
+                <div>
+                  <h1 className="font-heading text-[2rem] font-extrabold leading-tight text-navy">{dog.name}</h1>
+                  {dog.breed && <p className="font-sub text-[1rem] italic text-slate">{dog.breed}</p>}
+                </div>
+                <a
+                  href={`/dashboard/dog/${dog.id}/edit`}
+                  className="rounded-[10px] bg-orange px-5 py-2.5 font-heading text-[0.9rem] font-bold text-cream transition hover:-translate-y-0.5 hover:bg-orange-dark"
+                >
+                  Edit Profile
+                </a>
+              </div>
+            }
           />
         </div>
 
