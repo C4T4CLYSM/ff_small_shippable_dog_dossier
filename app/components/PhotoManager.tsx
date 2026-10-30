@@ -111,8 +111,8 @@ export default function PhotoManager({ dogId }: { dogId: string }) {
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {photos.map((photo, i) => (
           <div key={photo.id} className="overflow-hidden rounded-xl bg-slate/40 ring-1 ring-cream/10">
-            <div className="relative aspect-[4/3]">
-              <Image src={photoUrl(photo.path)} alt={`Photo ${i + 1}`} fill sizes="200px" className="object-cover" />
+            <div className="relative aspect-[4/3] bg-navy">
+              <Image src={photoUrl(photo.path)} alt={`Photo ${i + 1}`} fill sizes="200px" className="object-contain" />
               {i === 0 && (
                 <span className="absolute left-2 top-2 rounded-full bg-orange px-2 py-0.5 font-heading text-[0.65rem] font-bold uppercase tracking-wide text-cream">
                   Main photo

@@ -19,7 +19,7 @@ export default function PhotoGallery({
 
   if (photos.length === 0) {
     return (
-      <div className="flex aspect-[4/3] w-full items-center justify-center rounded-2xl bg-slate text-[4rem] shadow-[0_0_0_3px_#EA580C]">
+      <div className="flex h-[min(50vh,360px)] w-full items-center justify-center rounded-2xl bg-slate text-[4rem] shadow-[0_0_0_3px_#EA580C]">
         🐾
       </div>
     );
@@ -33,15 +33,24 @@ export default function PhotoGallery({
         type="button"
         onClick={() => setOpen(true)}
         aria-label={`Open photo ${index + 1} of ${photos.length} full screen`}
-        className="group relative aspect-[4/3] w-full cursor-zoom-in overflow-hidden rounded-2xl bg-navy shadow-[0_0_0_3px_#EA580C]"
+        className="group relative h-[min(75vh,640px)] w-full cursor-zoom-in overflow-hidden rounded-2xl bg-navy shadow-[0_0_0_3px_#EA580C]"
       >
+        {/* Blurred copy fills the space around photos of any shape; the photo itself is never cropped */}
+        <Image
+          src={photos[index]}
+          alt=""
+          aria-hidden
+          fill
+          sizes="(max-width: 768px) 100vw, 720px"
+          className="scale-110 object-cover opacity-50 blur-2xl"
+        />
         <Image
           src={photos[index]}
           alt={`${dogName}, photo ${index + 1}`}
           fill
           sizes="(max-width: 768px) 100vw, 720px"
           priority
-          className="object-cover transition duration-300 group-hover:scale-[1.02]"
+          className="object-contain transition duration-300 group-hover:scale-[1.02]"
         />
         {photos.length > 1 && (
           <span className="absolute bottom-3 left-3 rounded-full bg-navy/75 px-2.5 py-1 font-heading text-[0.75rem] font-semibold tabular-nums text-white">
