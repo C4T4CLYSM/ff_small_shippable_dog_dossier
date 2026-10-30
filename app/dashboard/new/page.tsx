@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import SiteFooter from "@/app/components/SiteFooter";
+import FoundBarOption from "@/app/components/FoundBarOption";
 import Image from "next/image";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -58,6 +59,7 @@ export default function NewDogPage() {
     sex: "", spayed_neutered: false, coat_color: "",
   });
 
+  const [showFoundBar, setShowFoundBar] = useState(false);
   const [safety, setSafety] = useState<SafetyData>({
     emergency_contact_name: "", emergency_contact_phone: "",
     vet_name: "", vet_phone: "", vet_address: "",
@@ -95,6 +97,7 @@ export default function NewDogPage() {
         sex: basics.sex || null,
         spayed_neutered: basics.spayed_neutered,
         coat_color: basics.coat_color || null,
+        show_found_bar: showFoundBar,
       })
       .select()
       .single();
@@ -228,6 +231,8 @@ export default function NewDogPage() {
                     placeholder="+1 (555) 000-0000" className={inputClass} />
                 </Field>
               </div>
+              <FoundBarOption checked={showFoundBar} onChange={setShowFoundBar}
+                dogName={basics.name} hasPhone={!!safety.emergency_contact_phone.trim()} />
               <Field label="Vet Name">
                 <input value={safety.vet_name} onChange={e => setSafety(p => ({ ...p, vet_name: e.target.value }))}
                   placeholder="e.g. Happy Paws Clinic" className={inputClass} />

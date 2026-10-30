@@ -34,6 +34,7 @@ export interface Dog {
   spayed_neutered: boolean | null;
   coat_color: string | null;
   photo_url: string | null;
+  show_found_bar: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -96,4 +97,12 @@ export interface DogProfile {
   routine: DogRoutine | null;
   behavior: DogBehavior | null;
   shareLink: DogShareLink;
+}
+
+export interface DogPhoto {
+  id: string;
+  dog_id: string;
+  path: string;
+  position: number;
+  created_at: string;
 }

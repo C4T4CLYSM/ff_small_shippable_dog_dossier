@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import SiteFooter from "@/app/components/SiteFooter";
+import PhotoManager from "@/app/components/PhotoManager";
+import FoundBarOption from "@/app/components/FoundBarOption";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
@@ -17,14 +19,13 @@ export default function EditDogPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
-  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [showFoundBar, setShowFoundBar] = useState(false);
   const [weightUnit, setWeightUnit] = useState<"lbs" | "kg">("lbs");
 
   const [basics, setBasics] = useState({
     name: "", breed: "", date_of_birth: "", weight_lbs: "",
     sex: "" as "male" | "female" | "",
-    spayed_neutered: false, coat_color: "", photo_url: "",
+    spayed_neutered: false, coat_color: "",
   });
 
   const [safety, setSafety] = useState({
@@ -86,8 +87,8 @@ export default function EditDogPage() {
         sex: dog.sex ?? "",
         spayed_neutered: dog.spayed_neutered ?? false,
         coat_color: dog.coat_color ?? "",
-        photo_url: dog.photo_url ?? "",
       });
+      setShowFoundBar(dog.show_found_bar ?? false);
 
       if (safetyRes.data) {
         const s = safetyRes.data;
@@ -152,37 +153,10 @@ export default function EditDogPage() {
     load();
   }, [id]);
 
-  function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setPhotoFile(file);
-    setPhotoPreview(URL.createObjectURL(file));
-  }
-
   async function handleSave() {
     if (!basics.name.trim()) { setError("Dog's name is required."); return; }
     setSaving(true);
     setError(null);
-
-    let photo_url = basics.photo_url;
-
-    if (photoFile) {
-      const ext = photoFile.name.split(".").pop();
-      const path = `${id}/photo.${ext}`;
-      const { error: uploadError } = await supabase.storage
-        .from("dog-photos")
-        .upload(path, photoFile, { upsert: true });
-
-      if (uploadError) {
-        setError(`Photo upload failed: ${uploadError.message}`);
-        setSaving(false);
-        return;
-      }
-
-      const { data: urlData } = supabase.storage.from("dog-photos").getPublicUrl(path);
-      // Same path on every upload, so add a version to skip cached copies
-      photo_url = `${urlData.publicUrl}?v=${Date.now()}`;
-    }
 
     const weightInLbs = basics.weight_lbs
       ? weightUnit === "kg"
@@ -199,7 +173,7 @@ export default function EditDogPage() {
         sex: basics.sex || null,
         spayed_neutered: basics.spayed_neutered,
         coat_color: basics.coat_color || null,
-        photo_url: photo_url || null,
+        show_found_bar: showFoundBar,
         updated_at: new Date().toISOString(),
       }).eq("id", id),
 
@@ -306,18 +280,8 @@ export default function EditDogPage() {
           {step === 0 && (
             <div className="flex flex-col gap-5">
               <h2 className="font-heading text-[1.4rem] font-extrabold text-cream">Basic Info</h2>
-              <Field label="Dog Photo">
-                <div className="flex items-center gap-4">
-                  {(photoPreview || basics.photo_url) && (
-                    <div className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-orange">
-                      <Image src={photoPreview ?? basics.photo_url} alt="Dog photo" fill className="object-cover" />
-                    </div>
-                  )}
-                  <label className="cursor-pointer rounded-xl bg-slate/40 px-4 py-2.5 font-heading text-[0.9rem] text-cream/70 ring-1 ring-cream/10 transition hover:bg-slate/60 hover:text-cream">
-                    {basics.photo_url || photoPreview ? "Change Photo" : "Upload Photo"}
-                    <input type="file" accept="image/jpeg,image/png,image/webp" onChange={handlePhotoChange} className="hidden" />
-                  </label>
-                </div>
+              <Field label="Photos">
+                <PhotoManager dogId={id} />
               </Field>
               <Field label="Dog's Name *">
                 <input required value={basics.name} onChange={e => setBasics(p => ({ ...p, name: e.target.value }))}
@@ -405,6 +369,8 @@ export default function EditDogPage() {
                     placeholder="+1 (555) 000-0000" className={inputClass} />
                 </Field>
               </div>
+              <FoundBarOption checked={showFoundBar} onChange={setShowFoundBar}
+                dogName={basics.name} hasPhone={!!safety.emergency_contact_phone.trim()} />
               <Field label="Vet Name">
                 <input value={safety.vet_name} onChange={e => setSafety(p => ({ ...p, vet_name: e.target.value }))}
                   placeholder="e.g. Happy Paws Clinic" className={inputClass} />

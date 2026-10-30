@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import SiteFooter from "@/app/components/SiteFooter";
+import PhotoGallery from "@/app/components/PhotoGallery";
+import { photoUrl } from "@/lib/dogPhotos";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
@@ -14,6 +16,7 @@ export default function DogProfilePage() {
   const [routine, setRoutine] = useState<DogRoutine | null>(null);
   const [behavior, setBehavior] = useState<DogBehavior | null>(null);
   const [shareLinks, setShareLinks] = useState<DogShareLink[]>([]);
+  const [photos, setPhotos] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [newLinkLabel, setNewLinkLabel] = useState("");
   const [creatingLink, setCreatingLink] = useState(false);
@@ -34,12 +37,13 @@ export default function DogProfilePage() {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) { window.location.href = "/login"; return; }
 
-      const [dogRes, safetyRes, routineRes, behaviorRes, linksRes] = await Promise.all([
+      const [dogRes, safetyRes, routineRes, behaviorRes, linksRes, photosRes] = await Promise.all([
         supabase.from("dogs").select("*").eq("id", id).single(),
         supabase.from("dog_safety").select("*").eq("dog_id", id).single(),
         supabase.from("dog_routine").select("*").eq("dog_id", id).single(),
         supabase.from("dog_behavior").select("*").eq("dog_id", id).single(),
         supabase.from("dog_share_links").select("*").eq("dog_id", id).order("created_at", { ascending: true }),
+        supabase.from("dog_photos").select("path").eq("dog_id", id).order("position"),
       ]);
 
       if (!dogRes.data || dogRes.data.user_id !== session.user.id) {
@@ -52,6 +56,8 @@ export default function DogProfilePage() {
       setRoutine(routineRes.data);
       setBehavior(behaviorRes.data);
       setShareLinks(linksRes.data ?? []);
+      const paths = (photosRes.data ?? []).map(p => photoUrl(p.path));
+      setPhotos(paths.length > 0 ? paths : dogRes.data.photo_url ? [dogRes.data.photo_url] : []);
       setLoading(false);
     }
 
@@ -136,19 +142,10 @@ export default function DogProfilePage() {
 
       <main className="mx-auto w-full max-w-[1100px] flex-1 px-6 py-12">
         {/* Dog header */}
-        <div className="mb-10 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            {dog.photo_url ? (
-              <div className="relative h-28 w-28 overflow-hidden rounded-full border-4 border-orange">
-                <Image src={dog.photo_url} alt={dog.name} fill className="object-cover" />
-              </div>
-            ) : (
-              <div className="flex h-28 w-28 items-center justify-center rounded-full bg-navy text-[2.5rem]">🐾</div>
-            )}
-            <div>
-              <h1 className="font-heading text-[2rem] font-extrabold text-navy">{dog.name}</h1>
-              {dog.breed && <p className="font-sub text-[1rem] italic text-slate">{dog.breed}</p>}
-            </div>
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h1 className="font-heading text-[2rem] font-extrabold text-navy">{dog.name}</h1>
+            {dog.breed && <p className="font-sub text-[1rem] italic text-slate">{dog.breed}</p>}
           </div>
           <a
             href={`/dashboard/dog/${dog.id}/edit`}
@@ -156,6 +153,14 @@ export default function DogProfilePage() {
           >
             Edit Profile
           </a>
+        </div>
+
+        <div className="mx-auto mb-10 max-w-[720px]">
+          <PhotoGallery
+            photos={photos}
+            dogName={dog.name}
+            found={dog.show_found_bar && safety?.emergency_contact_phone ? { phone: safety.emergency_contact_phone } : null}
+          />
         </div>
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">

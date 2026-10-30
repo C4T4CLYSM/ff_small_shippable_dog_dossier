@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import PhotoGallery from "@/app/components/PhotoGallery";
 import type { Dog, DogSafety, DogRoutine, DogBehavior, DogShareLink } from "@/types/database";
 
 type CompatLabel = "yes" | "no" | "caution";
@@ -26,6 +27,8 @@ export default function PublicProfilePage() {
   const [safety, setSafety] = useState<DogSafety | null>(null);
   const [routine, setRoutine] = useState<DogRoutine | null>(null);
   const [behavior, setBehavior] = useState<DogBehavior | null>(null);
+  const [photos, setPhotos] = useState<string[]>([]);
+  const [found, setFound] = useState<{ phone: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
@@ -40,6 +43,8 @@ export default function PublicProfilePage() {
       setSafety(data.safety);
       setRoutine(data.routine);
       setBehavior(data.behavior);
+      setPhotos(data.photos ?? []);
+      setFound(data.found ?? null);
       setLoading(false);
     }
     load();
@@ -73,15 +78,11 @@ export default function PublicProfilePage() {
       </header>
 
       {/* Dog hero */}
-      <div className="bg-navy px-6 pb-16 pt-10 text-center">
+      <div className="bg-navy px-6 pb-16 pt-6 text-center">
         <div className="mx-auto max-w-[720px]">
-          {dog.photo_url ? (
-            <div className="relative mx-auto mb-5 h-32 w-32 overflow-hidden rounded-full border-4 border-orange shadow-[0_0_0_6px_rgba(234,88,12,0.15)]">
-              <Image src={dog.photo_url} alt={dog.name} fill className="object-cover" />
-            </div>
-          ) : (
-            <div className="mx-auto mb-5 flex h-32 w-32 items-center justify-center rounded-full border-4 border-orange bg-slate text-[3rem] shadow-[0_0_0_6px_rgba(234,88,12,0.15)]">🐾</div>
-          )}
+          <div className="mb-6">
+            <PhotoGallery photos={photos} dogName={dog.name} found={found} />
+          </div>
           <h1 className="font-heading text-[2.2rem] font-extrabold tracking-tight text-cream">{dog.name}</h1>
           {dog.breed && <p className="mt-1 font-sub text-[1rem] italic text-cream/60">{dog.breed}</p>}
           {link.label && (
