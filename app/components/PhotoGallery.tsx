@@ -9,12 +9,10 @@ export default function PhotoGallery({
   photos,
   dogName,
   found = null,
-  header = null,
 }: {
   photos: string[];
   dogName: string;
   found?: Found | null;
-  header?: React.ReactNode;
 }) {
   const [current, setCurrent] = useState(0);
   const [open, setOpen] = useState(false);
@@ -23,11 +21,8 @@ export default function PhotoGallery({
 
   if (photos.length === 0) {
     return (
-      <div className="mx-auto flex w-full max-w-[480px] flex-col gap-4">
-        {header}
-        <div className="flex aspect-[4/3] w-full items-center justify-center rounded-2xl bg-slate text-[4rem] shadow-[0_0_0_3px_#EA580C]">
-          🐾
-        </div>
+      <div className="mx-auto flex aspect-[4/3] w-full max-w-[480px] items-center justify-center rounded-2xl bg-slate text-[4rem] shadow-[0_0_0_3px_#EA580C]">
+        🐾
       </div>
     );
   }
@@ -40,10 +35,8 @@ export default function PhotoGallery({
   }
 
   return (
-    // The column is as wide as the frame (capped by the page width and a maximum height),
-    // so the header lines up with the photo's edges
-    <div className="mx-auto flex flex-col gap-4" style={{ width: `min(100%, calc(min(75vh, 640px) * ${ratio}))` }}>
-      {header}
+    // As wide as the frame, capped by the space available and a maximum height
+    <div className="mx-auto flex flex-col gap-3" style={{ width: `min(100%, calc(min(75vh, 640px) * ${ratio}))` }}>
       <button
         type="button"
         onClick={() => setOpen(true)}

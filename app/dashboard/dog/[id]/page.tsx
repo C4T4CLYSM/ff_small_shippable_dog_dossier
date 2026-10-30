@@ -142,60 +142,62 @@ export default function DogProfilePage() {
 
       <main className="mx-auto w-full max-w-[1100px] flex-1 px-6 py-12">
         {/* Dog header */}
-        <div className="mb-10">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h1 className="font-heading text-[2rem] font-extrabold leading-tight text-navy">{dog.name}</h1>
+            {dog.breed && <p className="font-sub text-[1rem] italic text-slate">{dog.breed}</p>}
+          </div>
+          <a
+            href={`/dashboard/dog/${dog.id}/edit`}
+            className="rounded-[10px] bg-orange px-5 py-2.5 font-heading text-[0.9rem] font-bold text-cream transition hover:-translate-y-0.5 hover:bg-orange-dark"
+          >
+            Edit Profile
+          </a>
+        </div>
+
+        {/* Photos beside the most urgent information */}
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
           <PhotoGallery
             photos={photos}
             dogName={dog.name}
             found={dog.show_found_bar && safety?.emergency_contact_phone ? { phone: safety.emergency_contact_phone } : null}
-            header={
-              <div className="flex flex-wrap items-end justify-between gap-3">
-                <div>
-                  <h1 className="font-heading text-[2rem] font-extrabold leading-tight text-navy">{dog.name}</h1>
-                  {dog.breed && <p className="font-sub text-[1rem] italic text-slate">{dog.breed}</p>}
-                </div>
-                <a
-                  href={`/dashboard/dog/${dog.id}/edit`}
-                  className="rounded-[10px] bg-orange px-5 py-2.5 font-heading text-[0.9rem] font-bold text-cream transition hover:-translate-y-0.5 hover:bg-orange-dark"
-                >
-                  Edit Profile
-                </a>
-              </div>
-            }
           />
+
+          <div className="flex flex-col gap-8">
+            {/* Safety */}
+            <Section title="Safety Info">
+              <Row label="Emergency Contact" value={safety?.emergency_contact_name} />
+              <Row label="Emergency Phone" value={safety?.emergency_contact_phone} />
+              <Row label="Vet" value={safety?.vet_name} />
+              <Row label="Vet Phone" value={safety?.vet_phone} />
+              <Row label="Vet Address" value={safety?.vet_address} />
+              <Row label="Microchip" value={safety?.microchip_number} />
+              <Row label="Medical Conditions" value={safety?.medical_conditions} />
+              <Row label="Allergies" value={safety?.allergies} />
+              {safety?.medications && safety.medications.length > 0 && (
+                <div className="mt-2">
+                  <p className="mb-1 text-[0.8rem] font-bold uppercase tracking-wide text-cream/40">Medications</p>
+                  {safety.medications.map((med, i) => (
+                    <p key={i} className="text-[0.9rem] text-cream/80">
+                      {[med.name, med.dose, med.frequency].filter(Boolean).join(" — ")}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </Section>
+
+            {/* Basics */}
+            <Section title="Basic Info">
+              <Row label="Sex" value={dog.sex} />
+              <Row label="Date of Birth" value={dog.date_of_birth} />
+              <Row label="Weight" value={dog.weight_lbs ? `${dog.weight_lbs} lbs` : null} />
+              <Row label="Coat Color" value={dog.coat_color} />
+              <Row label="Spayed / Neutered" value={dog.spayed_neutered ? "Yes" : "No"} />
+            </Section>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-          {/* Basics */}
-          <Section title="Basic Info">
-            <Row label="Sex" value={dog.sex} />
-            <Row label="Date of Birth" value={dog.date_of_birth} />
-            <Row label="Weight" value={dog.weight_lbs ? `${dog.weight_lbs} lbs` : null} />
-            <Row label="Coat Color" value={dog.coat_color} />
-            <Row label="Spayed / Neutered" value={dog.spayed_neutered ? "Yes" : "No"} />
-          </Section>
-
-          {/* Safety */}
-          <Section title="Safety Info">
-            <Row label="Emergency Contact" value={safety?.emergency_contact_name} />
-            <Row label="Emergency Phone" value={safety?.emergency_contact_phone} />
-            <Row label="Vet" value={safety?.vet_name} />
-            <Row label="Vet Phone" value={safety?.vet_phone} />
-            <Row label="Vet Address" value={safety?.vet_address} />
-            <Row label="Microchip" value={safety?.microchip_number} />
-            <Row label="Medical Conditions" value={safety?.medical_conditions} />
-            <Row label="Allergies" value={safety?.allergies} />
-            {safety?.medications && safety.medications.length > 0 && (
-              <div className="mt-2">
-                <p className="mb-1 text-[0.8rem] font-bold uppercase tracking-wide text-cream/40">Medications</p>
-                {safety.medications.map((med, i) => (
-                  <p key={i} className="text-[0.9rem] text-cream/80">
-                    {med.name} — {med.dose} — {med.frequency}
-                  </p>
-                ))}
-              </div>
-            )}
-          </Section>
-
+        <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
           {/* Routine */}
           <Section title="Daily Routine">
             <Row label="Walk Schedule" value={routine?.walk_schedule} />
@@ -228,7 +230,7 @@ export default function DogProfilePage() {
         </div>
 
         {/* Share Links */}
-        <div className="mt-10 rounded-2xl bg-navy p-8">
+        <div className="mt-8 rounded-2xl bg-navy p-8">
           <h2 className="mb-6 font-heading text-[1.3rem] font-extrabold text-cream">Share Links</h2>
 
           {shareLinks.length === 0 && (

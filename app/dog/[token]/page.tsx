@@ -97,19 +97,6 @@ export default function PublicProfilePage() {
       <main className="mx-auto max-w-[720px] px-6 py-10">
         <div className="flex flex-col gap-5">
 
-          {/* Basics */}
-          {link.show_basics && (
-            <Card title="Basic Info">
-              <Grid>
-                <Stat label="Sex" value={dog.sex} capitalize />
-                <Stat label="Date of Birth" value={dog.date_of_birth} />
-                <Stat label="Weight" value={dog.weight_lbs ? `${dog.weight_lbs} lbs` : null} />
-                <Stat label="Coat Color" value={dog.coat_color} capitalize />
-                <Stat label="Spayed / Neutered" value={dog.spayed_neutered ? "Yes" : "No"} />
-              </Grid>
-            </Card>
-          )}
-
           {/* Safety */}
           {link.show_safety && safety && (
             <Card title="Safety Info" alert>
@@ -142,12 +129,25 @@ export default function PublicProfilePage() {
                     {safety.medications.map((med, i) => (
                       <div key={i} className="rounded-xl bg-cream px-4 py-3">
                         <p className="font-heading text-[0.95rem] font-bold text-navy">{med.name}</p>
-                        <p className="text-[0.85rem] text-slate">{med.dose} · {med.frequency}</p>
+                        <p className="text-[0.85rem] text-slate">{[med.dose, med.frequency].filter(Boolean).join(" · ")}</p>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
+            </Card>
+          )}
+
+          {/* Basics */}
+          {link.show_basics && (
+            <Card title="Basic Info">
+              <Grid>
+                <Stat label="Sex" value={dog.sex} capitalize />
+                <Stat label="Date of Birth" value={dog.date_of_birth} />
+                <Stat label="Weight" value={dog.weight_lbs ? `${dog.weight_lbs} lbs` : null} />
+                <Stat label="Coat Color" value={dog.coat_color} capitalize />
+                <Stat label="Spayed / Neutered" value={dog.spayed_neutered ? "Yes" : "No"} />
+              </Grid>
             </Card>
           )}
 
