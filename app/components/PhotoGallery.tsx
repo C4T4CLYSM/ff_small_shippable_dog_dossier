@@ -16,8 +16,9 @@ export default function PhotoGallery({
 }) {
   const [current, setCurrent] = useState(0);
   const [open, setOpen] = useState(false);
-  // Width ÷ height of the main photo. The frame takes this shape, so it hugs the photo.
-  const [ratio, setRatio] = useState(3 / 4);
+  // Width ÷ height of each photo, measured as it loads. The frame takes the shape of the
+  // photo on show, so it always hugs the photo.
+  const [ratios, setRatios] = useState<Record<string, number>>({});
 
   if (photos.length === 0) {
     return (
@@ -29,9 +30,16 @@ export default function PhotoGallery({
 
   const index = Math.min(current, photos.length - 1);
 
-  function measure(e: React.SyntheticEvent<HTMLImageElement>) {
-    const { naturalWidth: w, naturalHeight: h } = e.currentTarget;
-    if (index === 0 && w && h) setRatio(Math.min(2, Math.max(0.5, w / h)));
+  // Until a photo is measured, keep the last known shape so the frame doesn't jump
+  const ratio = ratios[photos[index]] ?? ratios[photos[0]] ?? 3 / 4;
+
+  // Thumbnails keep the photo's proportions, so they measure every photo early
+  function measure(src: string) {
+    return (e: React.SyntheticEvent<HTMLImageElement>) => {
+      const { naturalWidth: w, naturalHeight: h } = e.currentTarget;
+      if (!w || !h || ratios[src]) return;
+      setRatios(r => ({ ...r, [src]: Math.min(2, Math.max(0.5, w / h)) }));
+    };
   }
 
   return (
@@ -50,7 +58,7 @@ export default function PhotoGallery({
           fill
           sizes="(max-width: 768px) 100vw, 720px"
           priority
-          onLoad={measure}
+          onLoad={measure(photos[index])}
           className="object-contain transition duration-300 group-hover:scale-[1.02]"
         />
         {photos.length > 1 && (
@@ -76,7 +84,7 @@ export default function PhotoGallery({
                 i === index ? "opacity-100 outline-orange" : "opacity-60 outline-transparent hover:opacity-100"
               }`}
             >
-              <Image src={src} alt="" fill sizes="64px" className="object-cover" />
+              <Image src={src} alt="" fill sizes="64px" onLoad={measure(src)} className="object-cover" />
             </button>
           ))}
         </div>
