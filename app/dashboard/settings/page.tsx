@@ -4,8 +4,11 @@ import { useEffect, useState } from "react";
 import SiteFooter from "@/app/components/SiteFooter";
 import Image from "next/image";
 import { supabase } from "@/lib/supabaseClient";
+import ProfileDetails from "@/app/components/ProfileDetails";
+import ChangePassword from "@/app/components/ChangePassword";
 
 export default function SettingsPage() {
+  const [userId, setUserId] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -17,6 +20,7 @@ export default function SettingsPage() {
     async function load() {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) { window.location.href = "/login"; return; }
+      setUserId(session.user.id);
       setUserEmail(session.user.email ?? null);
       setLoading(false);
     }
@@ -77,6 +81,9 @@ export default function SettingsPage() {
             <p className="mt-1 text-[0.95rem] text-cream/80">{userEmail}</p>
           </div>
         </div>
+
+        {userId && <ProfileDetails userId={userId} />}
+        {userEmail && <ChangePassword email={userEmail} />}
 
         {/* Danger zone */}
         <div className="rounded-2xl border border-red-200 p-7">

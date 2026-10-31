@@ -23,6 +23,14 @@ export interface User {
   created_at: string;
 }
 
+export interface UserProfile {
+  user_id: string;
+  first_name: string | null;
+  last_name: string | null;
+  phone: string | null;
+  updated_at: string;
+}
+
 export interface Dog {
   id: string;
   user_id: string;
