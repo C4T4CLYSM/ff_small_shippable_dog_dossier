@@ -78,16 +78,15 @@ export default function PublicProfilePage() {
 
       <main className="mx-auto w-full max-w-[1100px] flex-1 px-6 py-12">
         {/* Dog header */}
-        <div className="mb-8 flex flex-wrap items-end gap-x-4 gap-y-2">
-          <div>
-            <h1 className="font-heading text-[2rem] font-extrabold leading-tight tracking-tight text-navy">{dog.name}</h1>
-            {dog.breed && <p className="font-sub text-[1rem] italic text-slate">{dog.breed}</p>}
-          </div>
+        <div className="mb-8">
           {link.label && (
-            <span className="mb-1 rounded-full bg-orange/15 px-4 py-1 font-heading text-[0.8rem] font-bold text-orange-dark">
+            <p className="mb-1.5 flex items-center gap-2 font-heading text-[0.72rem] font-bold uppercase tracking-[0.14em] text-orange-dark">
+              <span aria-hidden="true" className="h-0.5 w-[18px] bg-orange" />
               {link.label}
-            </span>
+            </p>
           )}
+          <h1 className="font-heading text-[2rem] font-extrabold leading-tight tracking-tight text-navy">{dog.name}</h1>
+          {dog.breed && <p className="font-sub text-[1rem] italic text-slate">{dog.breed}</p>}
         </div>
 
         {/* Photos beside the most urgent information */}
@@ -97,7 +96,7 @@ export default function PublicProfilePage() {
             <div className="flex flex-col gap-8">
               {/* Safety */}
               {link.show_safety && safety && (
-                <Card title="Safety Info" alert>
+                <Card title="Safety Info">
                   {(safety.emergency_contact_name || safety.emergency_contact_phone) && (
                     <div className="mb-5 rounded-xl bg-red-50 px-4 py-4">
                       <p className="mb-2 text-[0.72rem] font-bold uppercase tracking-wide text-red-500">Emergency Contact</p>
@@ -153,7 +152,7 @@ export default function PublicProfilePage() {
         </div>
 
         {lower > 0 && (
-          <div className={`mt-8 grid grid-cols-1 items-start gap-8 ${lower === 2 ? "lg:grid-cols-2" : ""}`}>
+          <div className={`mt-8 grid grid-cols-1 gap-8 ${lower === 2 ? "lg:grid-cols-2" : ""}`}>
             {/* Routine */}
             {link.show_routine && routine && (
               <Card title="Daily Routine">
@@ -212,9 +211,9 @@ export default function PublicProfilePage() {
   );
 }
 
-function Card({ title, children, alert = false }: { title: string; children: React.ReactNode; alert?: boolean }) {
+function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className={`rounded-2xl bg-white p-6 shadow-[0_2px_16px_rgba(30,41,59,0.08)] ${alert ? "border-l-4 border-red-300" : ""}`}>
+    <div className="rounded-2xl bg-white p-6 shadow-[0_2px_16px_rgba(30,41,59,0.08)]">
       <h2 className="mb-4 font-heading text-[1.05rem] font-extrabold text-navy">{title}</h2>
       {children}
     </div>
