@@ -28,6 +28,12 @@ export default function SiteHeader() {
         </a>
         <div className="flex items-center gap-3">
           <a
+            href="/login"
+            className="rounded-[10px] border border-cream/30 px-3 py-2 text-center font-heading text-[0.75rem] font-bold leading-tight text-cream transition hover:border-cream/60 hover:bg-cream/5 sm:px-[22px] sm:py-[10px] sm:text-[0.95rem]"
+          >
+            Log in
+          </a>
+          <a
             href={STRIPE_LINK}
             target="_blank"
             rel="noopener noreferrer"
