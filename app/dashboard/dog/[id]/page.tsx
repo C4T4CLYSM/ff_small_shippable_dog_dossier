@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import SiteFooter from "@/app/components/SiteFooter";
 import PhotoGallery from "@/app/components/PhotoGallery";
+import StickyColumn from "@/app/components/StickyColumn";
+import ProfileChecklist from "@/app/components/ProfileChecklist";
+import { profileChecks } from "@/lib/profileChecks";
 import { photoUrl } from "@/lib/dogPhotos";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -164,11 +167,18 @@ export default function DogProfilePage() {
 
         {/* Photos beside the most urgent information */}
         <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
-          <PhotoGallery
-            photos={photos}
-            dogName={dog.name}
-            found={dog.show_found_bar && safety?.emergency_contact_phone ? { phone: safety.emergency_contact_phone } : null}
-          />
+          <StickyColumn>
+            <PhotoGallery
+              photos={photos}
+              dogName={dog.name}
+              found={dog.show_found_bar && safety?.emergency_contact_phone ? { phone: safety.emergency_contact_phone } : null}
+            />
+            <ProfileChecklist
+              dogId={dog.id}
+              dogName={dog.name}
+              checks={profileChecks(dog, safety, routine, behavior, photos.length)}
+            />
+          </StickyColumn>
 
           <div className="flex flex-col gap-8">
             {/* Safety */}

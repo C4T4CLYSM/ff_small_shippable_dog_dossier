@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import PhotoGallery from "@/app/components/PhotoGallery";
 import SiteHeader from "@/app/components/SiteHeader";
+import StickyColumn from "@/app/components/StickyColumn";
 import SiteFooter from "@/app/components/SiteFooter";
 import type { Dog, DogSafety, DogRoutine, DogBehavior, DogShareLink } from "@/types/database";
 
@@ -91,7 +92,9 @@ export default function PublicProfilePage() {
 
         {/* Photos beside the most urgent information */}
         <div className={hasSide ? "grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]" : ""}>
-          <PhotoGallery photos={photos} dogName={dog.name} found={found} />
+          <StickyColumn>
+            <PhotoGallery photos={photos} dogName={dog.name} found={found} />
+          </StickyColumn>
           {hasSide && (
             <div className="flex flex-col gap-8">
               {/* Safety */}

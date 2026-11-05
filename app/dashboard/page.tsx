@@ -3,12 +3,9 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { supabase } from "@/lib/supabaseClient";
-import type { Dog, DogSafety, DogRoutine, DogBehavior } from "@/types/database";
+import type { Dog } from "@/types/database";
+import { profileChecks, percentComplete, type SafetySummary, type RoutineSummary, type BehaviorSummary } from "@/lib/profileChecks";
 import SiteFooter from "@/app/components/SiteFooter";
-
-type SafetySummary = Pick<DogSafety, "dog_id" | "emergency_contact_phone" | "vet_name" | "vet_phone" | "microchip_number">;
-type RoutineSummary = Pick<DogRoutine, "dog_id" | "feeding_schedule" | "walk_schedule">;
-type BehaviorSummary = Pick<DogBehavior, "dog_id" | "good_with_kids" | "good_with_dogs" | "good_with_cats" | "known_fears" | "known_commands">;
 
 type DogCard = {
   dog: Dog;
@@ -19,7 +16,6 @@ type DogCard = {
   missing: string[];  // most useful details still to add
 };
 
-// What makes a profile "complete". Each item counts equally towards the percentage.
 function summarize(
   dog: Dog,
   safety: SafetySummary | undefined,
@@ -28,28 +24,19 @@ function summarize(
   photoCount: number,
   linkCount: number,
 ): DogCard {
-  const checks: { ok: boolean; missing: string }[] = [
-    { ok: photoCount > 0 || !!dog.photo_url, missing: "No photos" },
-    { ok: !!safety?.emergency_contact_phone, missing: "No emergency contact" },
-    { ok: !!(safety?.vet_name || safety?.vet_phone), missing: "No vet" },
-    { ok: !!safety?.microchip_number, missing: "No microchip" },
-    { ok: !!(dog.date_of_birth && dog.weight_lbs), missing: "Basic info missing" },
-    { ok: !!(routine && (routine.feeding_schedule?.length || routine.walk_schedule)), missing: "No routine" },
-    { ok: !!(behavior && (behavior.good_with_kids || behavior.good_with_dogs || behavior.good_with_cats
-      || behavior.known_fears || behavior.known_commands)), missing: "No behavior notes" },
-  ];
-  const [, emergency, vet, , , routineOk, behaviorOk] = checks.map(c => c.ok);
+  const checks = profileChecks(dog, safety, routine, behavior, photoCount);
+  const ok = (key: string) => checks.some(c => c.key === key && c.ok);
   const done = [
-    emergency && vet && "Safety",
-    routineOk && "Routine",
-    behaviorOk && "Behavior",
+    ok("emergency") && ok("vet") && "Safety",
+    ok("routine") && "Routine",
+    ok("behavior") && "Behavior",
   ].filter((s): s is string => !!s);
 
   return {
     dog,
     photoCount,
     linkCount,
-    percent: Math.round((checks.filter(c => c.ok).length / checks.length) * 100),
+    percent: percentComplete(checks),
     done,
     missing: checks.filter(c => !c.ok).map(c => c.missing),
   };
@@ -107,9 +94,9 @@ export default function DashboardPage() {
       setInitial((name ?? session.user.email ?? "?").charAt(0).toUpperCase());
       setIsFounder(!!userRes.data?.is_founder);
 
-      const safety = new Map((safetyRes.data ?? []).map(s => [s.dog_id, s]));
-      const routine = new Map((routineRes.data ?? []).map(r => [r.dog_id, r]));
-      const behavior = new Map((behaviorRes.data ?? []).map(b => [b.dog_id, b]));
+      const safety = new Map<string, SafetySummary>((safetyRes.data ?? []).map(s => [s.dog_id, s]));
+      const routine = new Map<string, RoutineSummary>((routineRes.data ?? []).map(r => [r.dog_id, r]));
+      const behavior = new Map<string, BehaviorSummary>((behaviorRes.data ?? []).map(b => [b.dog_id, b]));
       const photoCounts = countBy(photosRes.data);
       const linkCounts = countBy(linksRes.data);
 

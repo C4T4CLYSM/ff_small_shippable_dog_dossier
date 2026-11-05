@@ -16,6 +16,13 @@ type Feeding = { time: string; amount: string; food_brand: string };
 export default function EditDogPage() {
   const { id } = useParams<{ id: string }>();
   const [step, setStep] = useState(0);
+
+  // Checklist links open a specific step, e.g. ?step=safety
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("step");
+    const index = STEPS.findIndex(s => s.toLowerCase() === requested);
+    if (index > 0) setStep(index);
+  }, []);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
