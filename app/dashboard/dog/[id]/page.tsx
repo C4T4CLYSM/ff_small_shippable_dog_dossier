@@ -64,6 +64,13 @@ export default function DogProfilePage() {
     load();
   }, [id]);
 
+  // The dashboard's Share button links to #share-links; the section only exists once loaded
+  useEffect(() => {
+    if (!loading && window.location.hash === "#share-links") {
+      document.getElementById("share-links")?.scrollIntoView();
+    }
+  }, [loading]);
+
   async function createShareLink() {
     if (!newLinkLabel.trim() || !dog) return;
     setCreatingLink(true);
@@ -230,7 +237,7 @@ export default function DogProfilePage() {
         </div>
 
         {/* Share Links */}
-        <div className="mt-8 rounded-2xl bg-navy p-8">
+        <div id="share-links" className="mt-8 scroll-mt-24 rounded-2xl bg-navy p-8">
           <h2 className="mb-6 font-heading text-[1.3rem] font-extrabold text-cream">Share Links</h2>
 
           {shareLinks.length === 0 && (
